@@ -1,0 +1,16 @@
+
+1. https://cs61.seas.harvard.edu/site/2021/Philosophers/
+   - A resource from Harvard's CS61 course explaining the Dining Philosophers problem and possible implementations in C.
+
+2. https://www.david-colson.com/2021/04/25/philosophers.html
+   - An in-depth blog post by David Colson that explores how to implement the Dining Philosophers problem with mutexes and semaphores in C.
+
+3. https://www.cprogramming.com/snippets/source-code/dining-philosophers-problem
+   - A code snippet and discussion from CProgramming.com with sample code for solving the Dining Philosophers problem in C.
+
+4. https://en.wikipedia.org/wiki/Dining_philosophers_problem
+   - The Wikipedia page on the Dining Philosophers problem, covering the theory, potential issues like deadlock, and different variations of the problem.
+
+5. https://medium.com/@alexanderfisser/dining-philosophers-problem-5d5837d6635e
+   - A Medium article that explains the Dining Philosophers problem and walks through a sample implementation with explanations of mutexes and semaphores.
+
