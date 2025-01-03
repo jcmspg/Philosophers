@@ -6,65 +6,42 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:46:11 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/02 21:30:07 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/03 20:43:04 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	free_philo(t_philo *philo)
-{
-	if (!philo)
-		return ;
-	free(philo);
-}
-
 void    free_philos(t_table *table)
 {
-    int i;
-
-    i = 0;
-    while (i < table->n_philos)
-    {
-        free_philo(table->philos[i]);
-        i++;
-    }
+    if (!table->philos)
+        return ;
     free(table->philos);
 }
 
-
-t_philo	*create_philo(int id)
+void	init_philo(t_table *table, int id)
 {
-	t_philo	*philo;
-
-	philo = malloc(sizeof(t_philo));
-	if (!philo)
-		return (NULL);
-	memset(philo, 0, sizeof(t_philo));
-	philo->id = id;
-	return (philo);
+    table->philos[id].id = id + 1;
+    table->philos[id].eat_count = 0;
+    table->philos[id].last_eat = 0;
+    table->philos[id].right_fork = 0;
+    table->philos[id].left_fork = 0;
 }
 
-t_philo	**autobots_assemble(t_table *table)
+t_philo	*autobots_assemble(t_table *table)
 {
     int i;
-    t_philo **philos;
 
     i = 0;
-    philos = malloc(sizeof(t_philo *) * (table->n_philos + 1));
-    if (!philos)
+    table->philos = malloc(sizeof(t_philo) * (table->n_philos));
+    if (!table->philos)
         return (NULL);
-    memset(philos, 0, sizeof(t_philo *) * table->n_philos);
+    memset(table->philos, 0, sizeof(t_philo) * (table->n_philos));
     while (i < table->n_philos)
     {
-        philos[i] = create_philo(i + 1);
-        if (!philos[i])
-        {
-            free_philo(philos[i]);
-            free_philos(table);
-            return (NULL);
-        }
+        init_philo(table, i);
         i++;
     }
-    return (philos);
+    return (table->philos);
 }
+

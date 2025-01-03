@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/02 19:10:35 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/03 20:11:06 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void	free_table(t_table *table)
 {
 	if (!table)
 		return ;
-	free_philos(table);
-	free(table);
+    if (table->philos)
+	    free_philos(table);
+    if (table->thread_array)
+        free_thread_array(table);
+    if (table)
+        free(table);
 }

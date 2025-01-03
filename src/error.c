@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:52:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/02 21:22:29 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/03 20:44:30 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void	print_info(t_philo *philo)
 }
 
 // print ALL the philos
-void	print_all(t_table *table)
+void	print_all_info(t_table *table)
 {
 	int	i;
 
 	i = 0;
 	while (i < table->n_philos)
 	{
-		print_info(table->philos[i]);
+		print_info(&table->philos[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:42:11 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/02 20:43:09 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/03 20:17:03 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 void	start_sim(t_table *table)
 {
-	print_all(table);
-   // create_threads(table);
+    start_threading(table);
 }

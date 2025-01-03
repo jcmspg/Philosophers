@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:48:18 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/02 21:32:21 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/03 20:43:55 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,22 @@ int	main(int argc, char **argv)
 
 	if (validate_args(argc, argv) == false)
 		return (printf("Invalid Arguments.\nExample: ./philo 5 800 200 200\n"));
-	table = init_table(argv);
+	
+    table = init_table(argv);
 	if (!table)
 		return (printf("Error: Invalid arguments\n"));
+    
+    if (!autobots_assemble(table))
+    {
+        free_table(table);
+        return (printf("Error: Memory allocation failed\n"));
+    }
+
+    print_all_info(table);
+    
+    table->thread_array = create_thread_array(table);
 	
-    table->philos = autobots_assemble(table);
-	start_sim(table);
+    start_sim(table);
 	free_table(table);
 	return (0);
 }
