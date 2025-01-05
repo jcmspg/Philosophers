@@ -41,3 +41,13 @@ void	print_all_info(t_table *table)
 		i++;
 	}
 }
+
+
+// print each philo's forks
+void print_forks(t_philo *philo)
+{
+    printf("Philosopher nbr: %d\n", philo->id);
+    printf("Right fork: %d\n", philo->right_fork);
+    printf("Left fork: %d\n", philo->left_fork);
+    printf("\n---\n");
+}

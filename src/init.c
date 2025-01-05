@@ -31,6 +31,9 @@ t_table	*init_table(char **argv)
 		free(table);
 		return (NULL);
 	}
+
+    ft_start_time(table);
+
 	return (table);
 }
 
@@ -42,6 +45,8 @@ void	free_table(t_table *table)
 	    free_philos(table);
     if (table->thread_array)
         free_thread_array(table);
+    if (table->forks)
+        free_forks(table);
     if (table)
         free(table);
 }

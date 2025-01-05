@@ -50,9 +50,13 @@ typedef struct s_philo
 	int			    eat_count;          // starts   // starts at 0 -> number of times the philosopher ate
 	int			    last_eat;           // starts   // last time the philosopher ate -> in ms
 
-    
+
     int             right_fork;                     // starts   // right fork -> number of the fork
-    int             left_fork;                      // starts   // left fork -> number of the fork
+    int             left_fork;
+
+    struct s_table  *table;                         // table struct
+
+    // starts   // left fork -> number of the fork
 }				    t_philo;
 
 // table struct
@@ -64,10 +68,12 @@ typedef struct s_table
 	int			time_to_eat;        // time to eat in ms
 	int			time_to_sleep;      // time to sleep in ms
 	int			must_eat_count;     // number of times each philosopher must eat
-    
+
+	struct timeval	start_time;         // start time of the simulation
+
     pthread_t   *controler;         // thread to check if a philo died or if all philos ate
     pthread_t   *thread_array;          // array of threads for each philosopher
-    
+
     pthread_mutex_t *forks;         // array of forks
 
     t_philo		*philos;            // array of philosophers
@@ -102,15 +108,27 @@ pthread_t   *create_thread(t_philo *philo);             // create a thread
 void        join_threads(t_table *table);               // join the threads
 void        start_threading(t_table *table);            // start the threads
 void        free_thread_array(t_table *table);          // free the array of threads
+
+// mutexes.c
+void init_forks(t_table *table);                        // initialize the forks
+void free_forks(t_table *table);                        // free the forks
+
 // aux.c
 bool        ft_isnumber(char *str);                     // check if a string is a number
 int         ft_atoi(const char *str);                   // convert a string to an integer
 void        assign_values(t_table *table, char **argv); // assign the values to the table
 
+// time.c
+long        get_timestamp(t_table *table);              // get the timestamp
+void        print_formatted_timestamp(long timestamp);     // print the timestamp
+void        ft_start_time(t_table *table);             // start the time
+
 // error.c
 int         print_error(char *msg);                     // print an error message
 void        print_info(t_philo *philo);                 // print the philosopher info
 void        print_all_info(t_table *table);                  // print all the philosophers info
+void        print_forks(t_philo *philo);                // print the forks of a philosopher
+
 void        free_table(t_table *table);                 // free the table
 
 

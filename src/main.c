@@ -18,22 +18,24 @@ int	main(int argc, char **argv)
 
 	if (validate_args(argc, argv) == false)
 		return (printf("Invalid Arguments.\nExample: ./philo 5 800 200 200\n"));
-	
+
     table = init_table(argv);
 	if (!table)
 		return (printf("Error: Invalid arguments\n"));
-    
+
     if (!autobots_assemble(table))
     {
         free_table(table);
         return (printf("Error: Memory allocation failed\n"));
     }
 
+    init_forks(table);
+
     print_all_info(table);
-    
+
     table->thread_array = create_thread_array(table);
-	
+
     start_sim(table);
-	free_table(table);
+    free_table(table);
 	return (0);
 }

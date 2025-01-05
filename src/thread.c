@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../philo.h"
+#include <stdio.h>
+#include <sys/select.h>
 
 //free thread array
 void    free_thread_array(t_table *table)
@@ -25,13 +27,45 @@ void    free_thread_array(t_table *table)
 void   *philo_life(void *arg)
 {
     t_philo *philo;
+    int right_fork;
+    int left_fork;
 
     philo = (t_philo *)arg; //cast arg to t_philo
-    //wait 5 seconds
-    printf("Philosopher nbr: %d waiting for 5 seconds.\n", philo->id);
-    sleep(5);
-    printf("Philosopher nbr: %d waited.\n", philo->id);
-    free(philo);
+    right_fork = philo->right_fork;
+    left_fork = philo->left_fork;
+
+    print_formatted_timestamp(get_timestamp(philo->table));
+    printf("Philosopher %d is thinking\n", philo->id);
+    usleep(1000);
+
+    //try to get the forks
+    pthread_mutex_lock(&philo->table->forks[right_fork]);
+    print_formatted_timestamp(get_timestamp(philo->table));
+    printf("Philosopher %d has taken the right fork\n", philo->id);
+    pthread_mutex_lock(&philo->table->forks[left_fork]);
+    print_formatted_timestamp(get_timestamp(philo->table));
+    printf("Philosopher %d has taken the left fork\n", philo->id);
+
+    //eat
+    print_formatted_timestamp(get_timestamp(philo->table));
+    printf("Philosopher %d is eating\n", philo->id);
+    philo->last_eat = get_timestamp(philo->table);
+    usleep(philo->table->time_to_eat * 1000);
+    philo->eat_count++;
+
+    //release the forks
+    pthread_mutex_unlock(&philo->table->forks[right_fork]);
+    pthread_mutex_unlock(&philo->table->forks[left_fork]);
+
+    //sleep
+    print_formatted_timestamp(get_timestamp(philo->table));
+    printf("Philosopher %d is sleeping\n", philo->id);
+    usleep(philo->table->time_to_sleep * 1000);
+
+    //think
+    print_formatted_timestamp(get_timestamp(philo->table));
+    printf("Philosopher %d is thinking\n", philo->id);
+
     return (NULL);
 }
 
@@ -50,19 +84,14 @@ pthread_t   *create_thread_array(t_table *table)
 void create_threads(t_table *table)
 {
     int i;
-    t_philo *philo_copy;
 
     i = 0;
-    
+
     while (i < table->n_philos)
     {
-        philo_copy = malloc(sizeof(t_philo));
-        if (!philo_copy)
-            print_error("Error creating thread");
-        *philo_copy = table->philos[i];
-        if (pthread_create(&table->thread_array[i], NULL, philo_life, philo_copy))
+        if (pthread_create(&table->thread_array[i], NULL, philo_life, &table->philos[i]))
         {
-            free(philo_copy);
+            free(table->thread_array);
             print_error("Error creating thread");
         }
         i++;

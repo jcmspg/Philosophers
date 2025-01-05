@@ -21,11 +21,16 @@ void    free_philos(t_table *table)
 
 void	init_philo(t_table *table, int id)
 {
-    table->philos[id].id = id + 1;
+    table->philos[id].id = id;
+
     table->philos[id].eat_count = 0;
+
     table->philos[id].last_eat = 0;
-    table->philos[id].right_fork = 0;
-    table->philos[id].left_fork = 0;
+
+    table->philos[id].right_fork = (id + 1) % table->n_philos;
+    table->philos[id].left_fork = id;
+
+    table->philos[id].table = table;
 }
 
 t_philo	*autobots_assemble(t_table *table)
@@ -44,4 +49,3 @@ t_philo	*autobots_assemble(t_table *table)
     }
     return (table->philos);
 }
-
