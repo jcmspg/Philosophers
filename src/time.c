@@ -7,9 +7,11 @@ long get_timestamp(t_table *table)
     struct timeval tv;
     long elapsed_ms;
 
+
     gettimeofday(&tv, NULL);
     elapsed_ms = (tv.tv_sec - table->start_time.tv_sec) * 1000;
     elapsed_ms += (tv.tv_usec - table->start_time.tv_usec) / 1000;
+    
 
     return (elapsed_ms);
 }

@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/03 20:11:06 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/06 21:21:45 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,18 @@ t_table	*init_table(char **argv)
 		free(table);
 		return (NULL);
 	}
-
+    table->controler = malloc(sizeof(pthread_t));
+    memset(table->controler, 0, sizeof(pthread_t));
+    if (!table->controler)
+    {
+        free(table);
+        return (NULL);
+    }
     ft_start_time(table);
 
-	return (table);
+    pthread_mutex_init(&table->deaths, NULL);
+
+    return (table);
 }
 
 void	free_table(t_table *table)
@@ -47,6 +55,8 @@ void	free_table(t_table *table)
         free_thread_array(table);
     if (table->forks)
         free_forks(table);
+    if (table->controler)
+        free(table->controler);
     if (table)
         free(table);
 }

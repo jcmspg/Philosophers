@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:48:18 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/03 20:43:55 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/06 21:21:00 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	if (!table)
 		return (printf("Error: Invalid arguments\n"));
 
-    if (!autobots_assemble(table))
+    if (autobots_assemble(table) == NULL)
     {
         free_table(table);
         return (printf("Error: Memory allocation failed\n"));
@@ -31,9 +31,12 @@ int	main(int argc, char **argv)
 
     init_forks(table);
 
-    print_all_info(table);
-
     table->thread_array = create_thread_array(table);
+    if (!table->thread_array)
+    {
+        free_table(table);
+        return (printf("Error: Memory allocation failed\n"));
+    }
 
     start_sim(table);
     free_table(table);

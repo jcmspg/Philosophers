@@ -19,6 +19,6 @@
 
 # Run this script but use arguments read from the terminal
 # example: bash run.sh 4 410 200 200 200
-valgrind --leak-check=full --track-origins=yes ./philo $1 $2 $3 $4 $5
+valgrind --tool=helgrind ./philo $1 $2 $3 $4 $5
 
 
