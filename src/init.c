@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/06 21:21:45 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:44:12 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ t_table	*init_table(char **argv)
         free(table);
         return (NULL);
     }
-    ft_start_time(table);
-
-    pthread_mutex_init(&table->deaths, NULL);
-
+    pthread_mutex_init(&table->write, NULL);
+    pthread_mutex_init(&table->control, NULL);
     return (table);
 }
 

@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 20:18:28 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/06 21:38:16 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:43:34 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,17 @@ void	free_thread_array(t_table *table)
 void	*philo_life(void *arg)
 {
 	t_philo	*philo;
-	int		right_fork;
-	int		left_fork;
 
 	philo = (t_philo *)arg;
-	right_fork = philo->right_fork;
-	left_fork = philo->left_fork;
+	while (!philo->table->simulating)
+    {
+		usleep(100);
+    }
 	while (philo->table->simulating)
 	{
-        if (philo->id % 2 == 0)
-            grab_forks(philo);
-        if (philo->id % 2 != 0)
-            philo_think(philo);
-        if (philo->id % 2 == 0)
-            philo_eat(philo);
-        if (philo->id % 2 != 0)
-            grab_forks(philo);
-        if (philo->id % 2 == 0)
-            philo_sleep(philo);
-        if (philo->id % 2 != 0)
-            philo_eat(philo);
-        if (philo->id % 2 == 0)
-            philo_think(philo);
-        if (philo->id % 2 != 0)
-            philo_sleep(philo);
+		grab_forks(philo);
+		philo_sleep(philo);
+		philo_think(philo);
 	}
 	return (NULL);
 }
@@ -89,6 +76,7 @@ void	join_threads(t_table *table)
 	int	i;
 
 	i = 0;
+    table->simulating = true;
 	while (i < table->n_philos)
 	{
 		pthread_join(table->thread_array[i], NULL);
@@ -99,13 +87,12 @@ void	join_threads(t_table *table)
 // start threading
 void	start_threading(t_table *table)
 {
+    ft_start_time(table);
 	create_threads(table);
-	if (pthread_create(table->controler, NULL, sim_controler, table) != 0)
-	{
-		free_thread_array(table);
-		print_error("Error creating controler thread");
-        return ;
-	}
+    if (pthread_create(table->controler, NULL, sim_controler, table))
+    {
+        free_thread_array(table);
+        print_error("Error creating controler thread");
+    }
 	join_threads(table);
-	pthread_join(*table->controler, NULL);
 }

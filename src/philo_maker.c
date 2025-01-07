@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:46:11 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/06 18:58:03 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:24:19 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	free_philos(t_table *table)
 
 void	init_philo(t_table *table, int id)
 {
+    pthread_mutex_init(&table->philos[id].n_eat, NULL);
 	table->philos[id].id = id;
 	table->philos[id].eat_count = 0;
 	table->philos[id].last_eat = 0;

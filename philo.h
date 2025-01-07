@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/06 21:02:50 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:43:46 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_philo
     int             left_fork;          // starts   // left fork -> number of the fork
 
     struct s_table  *table;             // table struct
+    pthread_mutex_t n_eat;
 
 }				    t_philo;
 
@@ -76,8 +77,9 @@ typedef struct s_table
     pthread_t   *controler;         // thread to check if a philo died or if all philos ate
     pthread_t   *thread_array;      // array of threads for each philosopher
 
+    pthread_mutex_t write;          // mutex to write
     pthread_mutex_t *forks;         // array of forks
-    pthread_mutex_t deaths;         // mutex to control the deaths
+    pthread_mutex_t control;         // mutex to control the deaths
 
     t_philo		*philos;            // array of philosophers
 }				t_table;
@@ -106,10 +108,11 @@ void        start_sim(t_table *table);                  // start the simulation
 void        *sim_controler(void *arg);                  // control the simulation
 
 // routine.c
-void       grab_forks(t_philo *philo);                 // grab the forks
-void       philo_sleep(t_philo *philo);                // sleep
-void       philo_think(t_philo *philo);                // think
-void       philo_eat(t_philo *philo);                  // eat
+void        grab_forks(t_philo *philo);                 // grab the forks
+void        philo_sleep(t_philo *philo);                // sleep
+void        philo_think(t_philo *philo);                // think
+void        philo_eat(t_philo *philo);                  // eat
+void        print_message(t_philo *philo, char *msg);   // print a message
 
 // thread.c
 void        *philo_life(void *arg);                     // routine to execute by each thread
