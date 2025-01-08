@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 20:18:28 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/08 20:22:42 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/08 23:24:58 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,26 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-    pthread_mutex_lock(&philo->table->control);
-	while (!philo->table->simulating)
+    pthread_mutex_lock(&philo->table->write);
+	while (philo->table->simulating == false)
     {
-        pthread_mutex_unlock(&philo->table->control);
+        pthread_mutex_unlock(&philo->table->write);
 		usleep(100);
-        pthread_mutex_lock(&philo->table->control);
+        pthread_mutex_lock(&philo->table->write);
     }
-    pthread_mutex_unlock(&philo->table->control);
-	pthread_mutex_lock(&philo->table->control);
-    while (philo->table->simulating)
+    pthread_mutex_unlock(&philo->table->write);
+
+	pthread_mutex_lock(&philo->table->write);
+    while (philo->table->simulating == true)
 	{
-        pthread_mutex_unlock(&philo->table->control);
+        if (philo->id % 2 != 0)
+            usleep(100);
+        pthread_mutex_unlock(&philo->table->write);
         grab_forks(philo);
 		philo_sleep(philo);
 		philo_think(philo);
 	}
+    pthread_mutex_unlock(&philo->table->write);
 	return (NULL);
 }
 
@@ -83,9 +87,9 @@ void	join_threads(t_table *table)
 
 	i = 0;
 
-    pthread_mutex_lock(&table->control);
+    pthread_mutex_lock(&table->write);
     table->simulating = true; 
-    pthread_mutex_unlock(&table->control);
+    pthread_mutex_unlock(&table->write);
 
     while (i < table->n_philos)
 	{
@@ -100,10 +104,5 @@ void	start_threading(t_table *table)
 {
     ft_start_time(table);
 	create_threads(table);
-//    if (pthread_create(table->controler, NULL, sim_controler, table))
-//    {
-//        free_thread_array(table);
-//        print_error("Error creating controler thread");
-//    }
 	join_threads(table);
 }

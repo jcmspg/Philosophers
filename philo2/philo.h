@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/08 21:11:17 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/08 20:54:00 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 // philosopher struct
 typedef struct s_philo
 {
-	int			    id;                 // starts at 1 (1 to n)-> number of philosopher
+	int             id;                 // starts at 1 (1 to n)-> number of philosopher
 	int			    eat_count;          // starts   // starts at 0 -> number of times the philosopher ate
 	int			    last_eat;           // starts   // last time the philosopher ate -> in ms
     
@@ -56,6 +56,7 @@ typedef struct s_philo
     int             left_fork;          // starts   // left fork -> number of the fork
 
     struct s_table  *table;             // table struct
+    
     pthread_mutex_t n_eat;              // mutex to control the number of times the philosopher ate
     pthread_mutex_t is_dead_mutex;      // mutex to control the death of the philosopher
 
@@ -70,18 +71,16 @@ typedef struct s_table
 	int			time_to_eat;        // time to eat in ms
 	int			time_to_sleep;      // time to sleep in ms
 	int			must_eat_count;     // number of times each philosopher must eat
-    int         n_eat;              // number of times each philosopher ate
-
+    int         n_ate;              // number of philosophers that ate
+                                    
     bool        simulating;         // is the simulation running?
     bool        all_ate;            // did all philosophers eat?
 	struct timeval	start_time;     // start time of the simulatioo
 
-    pthread_t   *controler;         // thread to check if a philo died or if all philos ate
     pthread_t   *thread_array;      // array of threads for each philosopher
 
     pthread_mutex_t write;          // mutex to write
     pthread_mutex_t *forks;         // array of forks
-    pthread_mutex_t control;         // mutex to control the deaths
 
     t_philo		*philos;            // array of philosophers
 }				t_table;
@@ -99,6 +98,7 @@ bool        validate_args(int argc, char **argv);       // check if the number o
 
 // init.c
 t_table     *init_table(char **argv);                   // initialize the table
+void        destroy_mutexes(t_table *table);            // destroy the mutexes
 
 // philo_maker.c
 void        free_philos(t_table *table);                // free the philosophers
