@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/16 17:20:55 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:31:38 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 // philosopher struct
 typedef struct s_philo
 {
-	int             id;                 // starts at 1 (1 to n)-> number of philosopher
+	int			    id;                 // starts at 1 (1 to n)-> number of philosopher
 	int			    eat_count;          // starts   // starts at 0 -> number of times the philosopher ate
 	int			    last_eat;           // starts   // last time the philosopher ate -> in ms
     
@@ -56,7 +56,9 @@ typedef struct s_philo
     int             left_fork;          // starts   // left fork -> number of the fork
 
     struct s_table  *table;             // table struct
-    
+    pthread_mutex_t n_eat;              // mutex to control the number of times the philosopher ate
+    pthread_mutex_t is_dead_mutex;      // mutex to control the death of the philosopher
+
 }				    t_philo;
 
 // table struct
@@ -68,17 +70,17 @@ typedef struct s_table
 	int			time_to_eat;        // time to eat in ms
 	int			time_to_sleep;      // time to sleep in ms
 	int			must_eat_count;     // number of times each philosopher must eat
-                                    
+    int         *n_eat;             // number of times each philosopher ate
+
     bool        simulating;         // is the simulation running?
     bool        all_ate;            // did all philosophers eat?
 	struct timeval	start_time;     // start time of the simulatioo
 
     pthread_t   *thread_array;      // array of threads for each philosopher
-    pthread_t   sim_thread;         // thread to control the simulation
 
     pthread_mutex_t write;          // mutex to write
     pthread_mutex_t *forks;         // array of forks
-    pthread_mutex_t *eat;           // array of mutexes to eat
+    pthread_mutex_t control;         // mutex to control the deaths
 
     t_philo		*philos;            // array of philosophers
 }				t_table;
@@ -93,10 +95,14 @@ bool        check_time(t_table *table);                 // check if the time to 
 bool        check_philos(t_table *table);               // check if the number of philosophers is valid
 bool        validate_numbers(char **argv);              // check if the arguments are numbers
 bool        validate_args(int argc, char **argv);       // check if the number of arguments is valid
+t_table     *validation_initialization(int argc, char **argv); // validate and initialize the table
+bool        check_thread_array(t_table *table);         // check if the thread array was created
 
 // init.c
+
+void        init_eat_count(t_table *table);             // initialize the eat count
 t_table     *init_table(char **argv);                   // initialize the table
-void        destroy_mutexes(t_table *table);            // destroy the mutexes
+
 
 // philo_maker.c
 void        free_philos(t_table *table);                // free the philosophers
@@ -105,31 +111,26 @@ t_philo     *autobots_assemble(t_table *table);         // create the philosophe
 
 // sim.c
 void        start_sim(t_table *table);                  // start the simulation
-void        *sim_controler(void *arg);                  // control the simulation
-void        create_sim_controller(t_table *table);      // create the simulation controller
-void        check_end_sim(t_table *table);              // check if the simulation ended
+bool        check_all_ate(t_table *table);              // check if all philosophers ate
+bool        check_death(t_table *table, t_philo *philo);// check if a philosopher is dead
+void        *philo_control(void *arg);                  // control the simulation
 
 
 
 // routine.c
-bool        check_death(t_philo *philo);                // check if the philosopher is dead
-bool        check_all_ate(t_table *table);              // check if all philosophers ate
 void        grab_forks(t_philo *philo);                 // grab the forks
-void        philo_sleep(t_philo *philo);                // sleep
-void        philo_think(t_philo *philo);                // think
-void        philo_eat(t_philo *philo);                  // eat
+void        release_forks(t_philo *philo);              // release the forks
+void        eat(t_philo *philo);                        // eat
+void        sleep_philo(t_philo *philo);                // sleep
+void        *philo_life(void *arg);                     // routine to execute
+void        eat_pray_love(t_table *table);              // function that runs philo life and philo control
 void        print_message(t_philo *philo, char *msg);   // print a message
-
-void       eat_pray_love(t_philo *philo);              // routine to eat, sleep and think
-
 
 // thread.c
 void        *philo_life(void *arg);                     // routine to execute by each thread
+
 pthread_t   *create_thread_array(t_table *table);       // create the array of threads
-pthread_t   *create_thread(t_philo *philo);             // create a thread
-void        create_threads(t_table *table);             // create the threads
-
-
+pthread_t   create_thread(t_philo *philo);             // create a thread
 
 void        join_threads(t_table *table);               // join the threads
 void        start_threading(t_table *table);            // start the threads
@@ -137,11 +138,7 @@ void        free_thread_array(t_table *table);          // free the array of thr
 
 // mutexes.c
 void init_forks(t_table *table);                        // initialize the forks
-void init_eatcount(t_table *table);                     // initialize the eat counter
 void free_forks(t_table *table);                        // free the forks
-void free_eat(t_table *table);                          // free the eat counter
-
-
 
 // aux.c
 bool        ft_isnumber(char *str);                     // check if a string is a number

@@ -6,11 +6,12 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:14:07 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/15 16:18:17 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:06:05 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+#include <bits/pthreadtypes.h>
 
 // init the fork mutex
 void	init_forks(t_table *table)
@@ -37,31 +38,6 @@ void	init_forks(t_table *table)
 	}
 }
 
-// init the eat mutex
-void	init_eatcount(t_table *table)
-{
-	int	i;
-
-	table->eat = malloc(sizeof(pthread_mutex_t) * table->n_philos);
-	memset(table->eat, 0, sizeof(pthread_mutex_t) * table->n_philos);
-	if (!table->eat)
-	{
-		print_error("Error creating eat counter");
-		return ;
-	}
-	i = 0;
-	while (i < table->n_philos)
-	{
-		if (pthread_mutex_init(&table->eat[i], NULL))
-		{
-			print_error("Error initializing eat counter");
-			free_eat(table);
-			return ;
-		}
-		i++;
-	}
-}
-
 // free the fork mutex
 void	free_forks(t_table *table)
 {
@@ -78,18 +54,28 @@ void	free_forks(t_table *table)
 	free(table->forks);
 }
 
-// free the eat mutex
-void	free_eat(t_table *table)
+// init the eat count array
+void	init_eat_count(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	if (!table->eat)
+	table->n_eat = malloc(sizeof(int) * table->n_philos);
+	if (!table->n_eat)
+	{
+		print_error("Error initializing eat count");
+		free_table(table);
 		return ;
+	}
+	memset(table->n_eat, 0, sizeof(int) * table->n_philos);
 	while (i < table->n_philos)
 	{
-		pthread_mutex_destroy(&table->eat[i]);
+		if (pthread_mutex_init(&table->philos[i].n_eat, NULL))
+		{
+			print_error("Error initializing eat count");
+			free_table(table);
+			return ;
+		}
 		i++;
 	}
-	free(table->eat);
 }

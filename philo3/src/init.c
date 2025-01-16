@@ -6,12 +6,13 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/15 16:18:15 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:06:02 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+// initialize the table
 t_table	*init_table(char **argv)
 {
 	t_table	*table;
@@ -31,18 +32,15 @@ t_table	*init_table(char **argv)
 		free(table);
 		return (NULL);
 	}
+	if (table->must_eat_count)
+		init_eat_count(table);
+	table->simulating = false;
 	pthread_mutex_init(&table->write, NULL);
+	pthread_mutex_init(&table->control, NULL);
 	return (table);
 }
 
-void	destroy_mutexes(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	pthread_mutex_destroy(&table->write);
-}
-
+// free table
 void	free_table(t_table *table)
 {
 	int	i;
@@ -52,12 +50,27 @@ void	free_table(t_table *table)
 	i = 0;
 	if (table->philos)
 		free_philos(table);
+	pthread_mutex_destroy(&table->write);
 	if (table->thread_array)
+	{
+		while (i < table->n_philos)
+		{
+			pthread_mutex_destroy(&table->philos[i].n_eat);
+			pthread_mutex_destroy(&table->philos[i].is_dead_mutex);
+			i++;
+		}
 		free_thread_array(table);
+	}
 	if (table->forks)
+	{
+		i = 0;
+		while (i < table->n_forks)
+		{
+			pthread_mutex_destroy(&table->forks[i]);
+			i++;
+		}
 		free_forks(table);
-	if (table->eat)
-		free_eat(table);
+	}
 	if (table)
 		free(table);
 }
