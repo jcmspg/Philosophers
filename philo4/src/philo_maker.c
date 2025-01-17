@@ -6,19 +6,11 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:46:11 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/17 18:00:10 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:07:58 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
-void	free_philos(t_table *table)
-{
-	if (!table->philos)
-		return ;
-	free(table->philos);
-}
-
 void	init_philo(t_table *table, int id)
 {
     pthread_mutex_init(&table->philos[id].n_eat, NULL);

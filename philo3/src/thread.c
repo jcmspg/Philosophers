@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 20:18:28 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/16 17:44:02 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:43:37 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,27 @@ void	join_threads(t_table *table)
 
 }
 
+void *philo_life(void *arg)
+{
+    t_philo	*philo;
+
+    philo = (t_philo *)arg;
+    while (philo->table->simulating)
+    {
+        grab_forks(philo);
+        eat(philo);
+        release_forks(philo);
+        sleep_philo(philo);
+        print_message(philo, "is thinking");
+    }
+    return (NULL);
+}
+
+
+
 // start threading
 void	start_threading(t_table *table)
 {
-    ft_start_time(table);
 	create_threads(table);
 	join_threads(table);
 }

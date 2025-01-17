@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:42:11 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/16 19:38:17 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:41:33 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ bool	check_all_ate(t_table *table)
 
     while (i < table->n_philos)
     {
-        pthread_mutex_lock(&table->philos[i].n_eat);
-        if (table->n_eat[i] < table->must_eat_count)
+        pthread_mutex_lock(&table->n_eat[i]);
+        if (table->eat_count[i] < table->must_eat_count)
         {
-            pthread_mutex_unlock(&table->philos[i].n_eat);
+            pthread_mutex_unlock(&table->n_eat[i]);
             return (false);
         }
-        pthread_mutex_unlock(&table->philos[i].n_eat);
         i++;
     }
+    table->all_ate = true;
     return (true);
 }
 
@@ -65,36 +65,6 @@ bool	check_death(t_table *table, t_philo *philo)
         return (true);
     }
     return (false);
-}
-
-// function to control the simulation (ate counter, death)
-void	*philo_control(void *arg)
-{
-    t_table	*table;
-    int        i;
-
-    table = (t_table *)arg;
-    while (table->simulating == true)
-    {
-        i = 0;
-        pthread_mutex_lock(&table->control);
-        if (check_death(table, &table->philos[i]))
-        {
-            table->simulating = false;
-            pthread_mutex_unlock(&table->control);
-            return (NULL);
-        }
-        if (table->must_eat_count && check_all_ate(table))
-        {
-            table->simulating = false;
-            pthread_mutex_unlock(&table->control);
-            return (NULL);
-        }
-        pthread_mutex_unlock(&table->control);
-        i++;
-        usleep(10);
-    }
-    return (NULL);
 }
 
 

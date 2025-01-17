@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:14:07 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/16 18:06:05 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:28:28 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	init_forks(t_table *table)
 	int	i;
 
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->n_forks);
-	memset(table->forks, 0, sizeof(pthread_mutex_t) * table->n_forks);
 	if (!table->forks)
 	{
 		print_error("Error creating forks");
 		return ;
 	}
+	memset(table->forks, 0, sizeof(pthread_mutex_t) * table->n_forks);
 	i = 0;
 	while (i < table->n_forks)
 	{
@@ -54,26 +54,40 @@ void	free_forks(t_table *table)
 	free(table->forks);
 }
 
-// init the eat count array
-void	init_eat_count(t_table *table)
+void	free_eat_count_mutexes(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	table->n_eat = malloc(sizeof(int) * table->n_philos);
 	if (!table->n_eat)
-	{
-		print_error("Error initializing eat count");
-		free_table(table);
 		return ;
-	}
-	memset(table->n_eat, 0, sizeof(int) * table->n_philos);
 	while (i < table->n_philos)
 	{
-		if (pthread_mutex_init(&table->philos[i].n_eat, NULL))
+		pthread_mutex_destroy(&table->n_eat[i]);
+		i++;
+	}
+	free(table->n_eat);
+}
+
+// init the eat count array
+void	init_eat_count_mutexes(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	table->n_eat = malloc(sizeof(pthread_mutex_t) * table->n_philos);
+	if (!table->n_eat)
+	{
+		print_error("Error creating eat count");
+		return ;
+	}
+	memset(table->n_eat, 0, sizeof(pthread_mutex_t) * table->n_philos);
+	while (i < table->n_philos)
+	{
+		if (pthread_mutex_init(&table->n_eat[i], NULL))
 		{
 			print_error("Error initializing eat count");
-			free_table(table);
+			free_eat_count_mutexes(table);
 			return ;
 		}
 		i++;

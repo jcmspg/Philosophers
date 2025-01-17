@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/16 19:31:38 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:26:42 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_table
 	int			time_to_eat;        // time to eat in ms
 	int			time_to_sleep;      // time to sleep in ms
 	int			must_eat_count;     // number of times each philosopher must eat
-    int         *n_eat;             // number of times each philosopher ate
+    int         *eat_count;          // number of times each philosopher ate
 
     bool        simulating;         // is the simulation running?
     bool        all_ate;            // did all philosophers eat?
@@ -78,6 +78,7 @@ typedef struct s_table
 
     pthread_t   *thread_array;      // array of threads for each philosopher
 
+    pthread_mutex_t *n_eat;         // array of mutexes to control the number of times each philosopher ate
     pthread_mutex_t write;          // mutex to write
     pthread_mutex_t *forks;         // array of forks
     pthread_mutex_t control;         // mutex to control the deaths
@@ -102,6 +103,7 @@ bool        check_thread_array(t_table *table);         // check if the thread a
 
 void        init_eat_count(t_table *table);             // initialize the eat count
 t_table     *init_table(char **argv);                   // initialize the table
+void        free_table(t_table *table);                 // free the table
 
 
 // philo_maker.c
@@ -139,6 +141,8 @@ void        free_thread_array(t_table *table);          // free the array of thr
 // mutexes.c
 void init_forks(t_table *table);                        // initialize the forks
 void free_forks(t_table *table);                        // free the forks
+void free_eat_count_mutexes(t_table *table);                    // free the eat count
+void init_eat_count_mutexes(t_table *table);                    // initialize the eat count
 
 // aux.c
 bool        ft_isnumber(char *str);                     // check if a string is a number
