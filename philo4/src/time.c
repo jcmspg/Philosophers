@@ -3,65 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:56:38 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/17 21:22:56 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:40:58 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 #include <complex.h>
 
+//check the timeval
+void check_timeval(pthread_mutex_t *mutex, struct timeval *time)
+{
+    pthread_mutex_lock(mutex);
+    gettimeofday(time, NULL);
+    pthread_mutex_unlock(mutex);
+}
+
 //get the timestamp
 long get_timestamp(t_table *table)
 {
-    struct timeval tv;
+    struct timeval current_time;
     long elapsed_ms;
 
+    check_timeval(&table->table, &current_time);
 
-    gettimeofday(&tv, NULL);
-    elapsed_ms = (tv.tv_sec - table->start_time.tv_sec) * 1000;
-    elapsed_ms += (tv.tv_usec - table->start_time.tv_usec) / 1000;
-    
+    // Calculate the difference in seconds and microseconds
+    long seconds_diff = (current_time.tv_sec - table->start_time.tv_sec) * 1000;
+    long microseconds_diff = (current_time.tv_usec - table->start_time.tv_usec) / 1000;
 
-    return (elapsed_ms);
+    // Combine both to get the total elapsed time in milliseconds
+    elapsed_ms = seconds_diff + microseconds_diff;
+
+    return elapsed_ms;
 }
+
 
 //print the timestamp
 void print_formatted_timestamp(long timestamp)
 {
-//    long hours;
-//    long minutes;
-//    long seconds;
-    long milliseconds;
-
-//    hours = timestamp / 3600000;
-//    minutes = (timestamp % 3600000) / 60000;
-//    seconds = ((timestamp % 3600000) % 60000) / 1000;
-    milliseconds = ((timestamp % 3600000) % 60000) % 1000;
-
-    // print only in ms
-    printf("%ld ", milliseconds);
-    
-    // print in hh:mm:ss:ms
-    //printf("%02ld:%02ld:%02ld:%03ld ", hours, minutes, seconds, milliseconds);
+    //print in ms
+    printf("%ldms ", timestamp);
 }
 
 //start the time
 void ft_start_time(t_table *table)
 {
-    gettimeofday(&table->start_time, NULL);
+    struct timeval start_time;
+    
+    if(gettimeofday(&start_time, NULL))
+    {
+        print_error("Error getting time");
+        return ;
+    }    
+    table->start_time = start_time;
 }
 
 void	print_message(t_philo *philo, char *msg)
 {
-	if (philo->table->simulating == false)
-		return ;
-	pthread_mutex_lock(&philo->table->write);
-	print_formatted_timestamp(get_timestamp(philo->table));
-	printf("Philosopher %d %s\n", philo->id, msg);
-	pthread_mutex_unlock(&philo->table->write);
+    long timestamp;
+   
+    if (philo->full)
+        return ;
+        
+    timestamp = get_timestamp(philo->table);
+    pthread_mutex_lock(&philo->table->write);
+    if (!simulating(philo->table))
+    {
+        pthread_mutex_unlock(&philo->table->write);
+        return ;
+    }
+    print_formatted_timestamp(timestamp);
+    printf("Philosopher %d %s\n", philo->id, msg);
+    pthread_mutex_unlock(&philo->table->write);    
 }
 
 

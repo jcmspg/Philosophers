@@ -3,50 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:50:17 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/17 19:09:50 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:49:26 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-// validation initialization
-t_table	*validation_initialization(int argc, char **argv)
-{
-	t_table	*table;
 
-	if (validate_args(argc, argv) == false)
-		return (NULL);
-	table = init_table(argv);
-	if (!table)
-		return (NULL);
-	if (autobots_assemble(table) == NULL)
-	{
-		free_table(table);
-		return (NULL);
-	}
-//	init_forks(table);
-//	if (!table->forks)
-//	{
-//		free_table(table);
-//		return (NULL);
-//	}
-	return (table);
-}
 
 // check thread array
-//bool	check_thread_array(t_table *table)
-//{
-//	table->thread_array = create_thread_array(table);
-//	if (!table->thread_array)
-//	{
-//		print_error("Error creating thread array");
-//		return (false);
-//	}
-//	return (true);
-//}
+bool	check_thread_array(t_table *table)
+{
+	table->thread_array = init_thread_array(table);
+	if (!table->thread_array)
+	{
+		print_error("Error creating thread array");
+		return (false);
+	}
+	return (true);
+}
 
 // check eat count
 bool	check_eat_count(t_table *table)
@@ -111,4 +89,26 @@ bool	validate_args(int argc, char **argv)
 	if (validate_numbers(argv) == false)
 		return (false);
 	return (true);
+}
+// validation initialization
+t_table	*validation_initialization(int argc, char **argv)
+{
+	t_table	*table;
+
+	if (validate_args(argc, argv) == false)
+	{
+		print_error("Invalid arguments");
+		return (NULL);
+	}
+	table = init_table(argv);
+	if (!table)
+	{
+		print_error("Error initializing table");
+		return (NULL);
+	}
+
+	init_table_mutexes(table);
+
+
+	return (table);
 }

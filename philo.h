@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/08 21:11:17 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:14:07 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ t_philo     *autobots_assemble(t_table *table);         // create the philosophe
 
 // sim.c
 void        start_sim(t_table *table);                  // start the simulation
-void        *sim_controler(void *arg);                  // control the simulation
+void        set_sync(t_table *table);                   // set the sync
+
 
 // routine.c
 void        grab_forks(t_philo *philo);                 // grab the forks
