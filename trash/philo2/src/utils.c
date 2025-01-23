@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:56:37 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:17:16 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/03 20:11:18 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int	ft_atoi(const char *str)
 void	assign_values(t_table *table, char **argv)
 {
 	table->n_philos = ft_atoi(argv[1]);
-	table->time_to_die = (ft_atoi(argv[2]));
-	table->time_to_eat = (ft_atoi(argv[3]));
-	table->time_to_sleep = (ft_atoi(argv[4]));
-	table->n_forks = table->n_philos;
+	table->time_to_die = ft_atoi(argv[2]);
+	table->time_to_eat = ft_atoi(argv[3]);
+	table->time_to_sleep = ft_atoi(argv[4]);
+    table->n_forks = table->n_philos;
 	if (argv[5])
 		table->must_eat_count = ft_atoi(argv[5]);
 	else

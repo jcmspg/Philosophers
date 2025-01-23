@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:44:02 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/23 23:05:08 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ void        print_info(t_philo *philo);                 // print the philosopher
 void        print_all_info(t_table *table);                  // print all the philosophers info
 void        print_forks(t_philo *philo);                // print the forks of a philosopher
 void        print_table_info(t_table *table);           // print the table info
-void        print_results(t_table *table);              // print the results
 
 // forks.c
 void        free_forks(t_table *table);                 // free the forks
