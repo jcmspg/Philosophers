@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 21:25:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:29:28 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/24 18:44:52 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,26 @@ bool	check_if_dead(t_philo *philo)
 	}
 	return (false);
 }
+// functon to see if the philo eat count is higher than the others
+bool check_all_ate(t_philo *philo)
+{
+	int i;
+
+	pthread_mutex_lock(&philo->table->write);
+	i = 0;
+	while (i < philo->table->n_philos)
+	{
+		if (philo->eat_count > philo->table->philos[i].eat_count)
+		{
+			pthread_mutex_unlock(&philo->table->write);
+			return (false);
+		}
+		i++;
+	}
+//	handle_bool(&philo->table->table, &philo->table->all_ate, true);
+	pthread_mutex_unlock(&philo->table->write);
+	return (true);
+}
 
 void	sleeperino(t_philo *philo)
 {
@@ -66,6 +86,10 @@ void	eat(t_philo *philo)
 {
 	if (check_if_dead(philo))
 		return ;
+	
+	if(!check_all_ate(philo))
+		return ;
+
 	grab_forks(philo);
 	print_message(philo, "is eating");
 	usleep(philo->table->time_to_eat * 1000);
