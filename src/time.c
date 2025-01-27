@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:56:38 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 18:31:05 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:38:17 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ long	get_timestamp(t_table *table)
 	long			seconds_diff;
 
 	check_timeval(&table->table, &current_time);
-    
 	seconds_diff = (current_time.tv_sec - table->start_time.tv_sec) * 1000;
-	elapsed_ms = seconds_diff + (current_time.tv_usec / 1000) - (table->start_time.tv_usec / 1000);
+	elapsed_ms = seconds_diff + (current_time.tv_usec / 1000)
+		- (table->start_time.tv_usec / 1000);
 	return (elapsed_ms);
 }
 

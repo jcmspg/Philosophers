@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:50:17 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:17:29 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/27 20:38:25 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ bool	validate_args(int argc, char **argv)
 // validation initialization
 t_table	*validation_initialization(int argc, char **argv)
 {
-	t_table *table;
+	t_table	*table;
 
 	if (validate_args(argc, argv) == false)
 	{

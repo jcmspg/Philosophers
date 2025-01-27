@@ -20,7 +20,7 @@ NAME = philo
 CC = cc
 
 # Flags
-CFLAGS = -Wall -Wextra -Werror -g -pthread
+CFLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=address
 
 # Directories
 SRC_DIR = ./src

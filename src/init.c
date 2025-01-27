@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 17:49:09 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:37:27 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	populate(t_table *table, char **argv)
 	table->thread_array = NULL;
 	table->forks = NULL;
 	table->philos = NULL;
-    table->round = 0;
+	table->round = 0;
 	return (true);
 }
 
@@ -58,7 +58,7 @@ bool	prepare_philos(t_table *table)
 	return (true);
 }
 
-bool prepare_numbers(char **argv)
+bool	prepare_numbers(char **argv)
 {
 	if (!validate_numbers(argv))
 	{
@@ -71,7 +71,7 @@ bool prepare_numbers(char **argv)
 // initialize the table
 t_table	*init_table(char **argv)
 {
-	t_table *table;
+	t_table	*table;
 
 	table = malloc(sizeof(t_table));
 	if (!table)

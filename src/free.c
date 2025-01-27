@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:10:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:17:10 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/27 20:40:47 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ void	free_forks(t_table *table)
 {
 	int	i;
 
+	if (!table->forks)
+	{
+		printf("forks is null\n");
+		return ;
+	}
 	i = 0;
 	while (i < table->n_forks)
 	{
-		if (pthread_mutex_destroy(&table->forks[i]))
-		{
-			print_error("Mutex destroy failed");
-			return ;
-		}
+		pthread_mutex_destroy(&table->forks[i]);
 		i++;
 	}
 	free(table->forks);

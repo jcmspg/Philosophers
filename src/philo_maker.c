@@ -6,13 +6,13 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:46:11 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/22 17:24:28 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/27 20:38:04 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void assing_forks(t_table *table, int id)
+void	assing_forks(t_table *table, int id)
 {
 	if (id % 2 == 0)
 	{
@@ -42,7 +42,7 @@ t_philo	*autobots_assemble(t_table *table)
 	int	i;
 
 	i = 0;
-    table->philos = (t_philo*) malloc(sizeof(t_philo) * table->n_philos);
+	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
 	if (!table->philos)
 	{
 		print_error("Error creating philosophers");

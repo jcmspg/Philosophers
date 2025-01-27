@@ -6,11 +6,21 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:56:37 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:17:16 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/27 20:38:21 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 bool	ft_isnumber(char *str)
 {
@@ -33,6 +43,8 @@ int	ft_atoi(const char *str)
 	size_t	result;
 
 	if (!str)
+		return (0);
+	if (ft_strlen(str) > 10)
 		return (0);
 	i = 0;
 	result = 0;

@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:52:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:38:46 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/27 20:37:13 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	print_error(char *msg)
 {
 	return (printf("Error: %s\n", msg));
 }
-
 
 // print table info
 void	print_table_info(t_table *table)
@@ -37,8 +36,6 @@ void	print_table_info(t_table *table)
 	printf("\n");
 }
 
-
-
 // print each philo's forks
 void	print_forks(t_philo *philo)
 {
@@ -47,7 +44,6 @@ void	print_forks(t_philo *philo)
 	printf("Left fork: %d\n", philo->left_fork);
 	printf("\n---\n");
 }
-
 
 // print philo info
 void	print_info(t_philo *philo)
@@ -60,7 +56,6 @@ void	print_info(t_philo *philo)
 	print_forks(philo);
 	printf("\n---\n");
 }
-
 
 // print ALL the philos
 void	print_all_info(t_table *table)
@@ -76,13 +71,15 @@ void	print_all_info(t_table *table)
 	}
 }
 
-void print_results(t_table *table)
+void	print_results(t_table *table)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (i < table->n_philos)
 	{
-		printf("Philosopher %d ate %d times\n", table->philos[i].id, table->philos[i].eat_count);
+		printf("Philosopher %d ate %d times\n", table->philos[i].id,
+			table->philos[i].eat_count);
 		i++;
 	}
 }

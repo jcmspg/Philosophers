@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:09:59 by joao              #+#    #+#             */
-/*   Updated: 2025/01/27 18:08:00 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:37:51 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@ void	set_sync(t_table *table)
 	}
 }
 
-void sim_one(t_table *table)
+void	sim_one(t_table *table)
 {
-    create_threads(table);
-    handle_bool(&table->table, &table->ready_set_go, true);
-    handle_bool(&table->table, &table->simulating, true);
-    join_threads(table);
+	create_threads(table);
+	handle_bool(&table->table, &table->ready_set_go, true);
+	handle_bool(&table->table, &table->simulating, true);
+	join_threads(table);
 }
-
 
 void	start_sim(t_table *table)
 {
@@ -36,7 +35,7 @@ void	start_sim(t_table *table)
 	ft_start_time(table);
 	if (table->n_philos == 1)
 	{
-        sim_one(table);
+		sim_one(table);
 	}
 	else
 	{

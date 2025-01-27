@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 21:25:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 19:34:11 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:49:23 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ bool	check_if_dead(t_philo *philo)
 	current_time = get_timestamp(philo->table);
 	if (current_time - philo->last_eat >= philo->table->time_to_die)
 	{
-		handle_bool(&philo->table->death_mutex, &philo->is_dead, true);
 		print_message(philo, "died");
 		handle_bool(&philo->table->table, &philo->table->simulating, false);
+		handle_bool(&philo->table->death_mutex, &philo->is_dead, true);
 		return (true);
 	}
 	return (false);
@@ -75,32 +75,32 @@ bool	check_all_ate(t_philo *philo)
 
 void	sleeperino(t_philo *philo)
 {
-	if (check_if_dead(philo))
-		return ;
+//	if (check_if_dead(philo))
+//		return ;
 	print_message(philo, "is sleeping");
 	usleep(philo->table->time_to_sleep * 1000);
-	if (check_if_dead(philo))
-		return ;
+//	if (check_if_dead(philo))
+//		return ;
 }
 
 void	grab_forks(t_philo *philo)
 {
-	if (check_if_dead(philo))
-		return ;
+//	if (check_if_dead(philo))
+//		return ;
 	if (philo->table->n_philos == 1)
 	{
 		pthread_mutex_lock(&philo->table->forks[philo->right_fork]);
-		print_message(philo, "has taken first fork");
+		print_message(philo, "has taken a fork");
 		pthread_mutex_unlock(&philo->table->forks[philo->right_fork]);
 		usleep(philo->table->time_to_die * 1000);
 		return ;
 	}
-	if (check_if_dead(philo))
-		return ;
+//	if (check_if_dead(philo))
+//		return ;
 	pthread_mutex_lock(&philo->table->forks[philo->right_fork]);
-	print_message(philo, "has taken first fork");
+	print_message(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->table->forks[philo->left_fork]);
-	print_message(philo, "has taken second fork");
+	print_message(philo, "has taken a fork");
 }
 
 void	release_forks(t_philo *philo)
@@ -111,19 +111,19 @@ void	release_forks(t_philo *philo)
 // think and wait until the other philosophers finish eating
 void	think(t_philo *philo)
 {
-	if (check_if_dead(philo))
-		return ;
+//	if (check_if_dead(philo))
+//		return ;
 	print_message(philo, "is thinking");
-	if (check_if_dead(philo))
-		return ;
+//	if (check_if_dead(philo))
+//		return ;
 }
 
 void	eat(t_philo *philo)
 {
 	if (has_lower_eat_count(philo))
 		usleep(100);
-	if (check_if_dead(philo))
-		return ;
+//	if (check_if_dead(philo))
+//		return ;
 	if (!check_all_ate(philo))
 		usleep(100);
 	grab_forks(philo);
@@ -156,23 +156,25 @@ void	*eat_pray_love(void *data)
 
 	philo = (t_philo *)data;
 	set_sync(philo->table);
-	while (simulating(philo->table))
+	while (simulating(philo->table) && !check_if_dead(philo))
 	{
-		if (check_if_dead(philo))
-			return (NULL);
+	//	if (check_if_dead(philo))
+	//		return (NULL);
 		if (check_bool(&philo->table->table, &philo->full))
 			return (NULL);
 		eat(philo);
-		if (check_if_dead(philo))
-			return (NULL);
+	//	if (check_if_dead(philo))
+	//		return (NULL);
 		if (check_bool(&philo->table->table, &philo->full))
 			return (NULL);
+      //  if (check_if_dead(philo))
+        //    return (NULL);
 		sleeperino(philo);
-		if (check_if_dead(philo))
-			return (NULL);
+	//	if (check_if_dead(philo))
+	//		return (NULL);
 		if (check_bool(&philo->table->table, &philo->full))
 			return (NULL);
-        think(philo);
+		think(philo);
 	}
 	return (NULL);
 }
