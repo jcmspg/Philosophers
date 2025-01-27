@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:56:38 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:37:14 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/27 18:31:05 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ long	get_timestamp(t_table *table)
 // print the timestamp
 void	print_formatted_timestamp(long timestamp)
 {
-	printf("%ldms ", timestamp);
+	printf("%ld ", timestamp);
 }
 
 // start the time
@@ -67,6 +67,6 @@ void	print_message(t_philo *philo, char *msg)
 	}
 	timestamp = get_timestamp(philo->table);
 	print_formatted_timestamp(timestamp);
-	printf("Philosopher %d %s\n", philo->id, msg);
+	printf("%d %s\n", philo->id, msg);
 	pthread_mutex_unlock(&philo->table->write);
 }

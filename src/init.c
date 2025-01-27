@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/23 23:23:44 by joao             ###   ########.fr       */
+/*   Updated: 2025/01/27 17:49:09 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ bool	populate(t_table *table, char **argv)
 	table->thread_array = NULL;
 	table->forks = NULL;
 	table->philos = NULL;
+    table->round = 0;
 	return (true);
 }
 
@@ -43,7 +44,7 @@ bool	prepare_philos(t_table *table)
 	init_forks(table);
 	if (!table->forks)
 	{
-		print_error("Error initializing mutexes");
+		print_error("Error initializing fork mutexes");
 		free_table(table);
 		return (false);
 	}
