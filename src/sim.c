@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:09:59 by joao              #+#    #+#             */
-/*   Updated: 2025/01/27 20:37:51 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:27:11 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	sim_one(t_table *table)
 
 void	start_sim(t_table *table)
 {
-	// print in red the warning message of the simulation starting
 	ft_start_time(table);
 	if (table->n_philos == 1)
 	{

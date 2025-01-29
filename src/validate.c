@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:50:17 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 20:38:25 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:52:44 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,50 +80,4 @@ bool	check_values(t_table *table)
 		return (false);
 	}
 	return (true);
-}
-
-// validate numbers
-bool	validate_numbers(char **argv)
-{
-	int	i;
-
-	i = 1;
-	while (argv[i])
-	{
-		if (ft_isnumber(argv[i]) == false)
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-// validate arguments
-bool	validate_args(int argc, char **argv)
-{
-	if (argc < MIN_ARGS)
-		return (false);
-	if (argc > MAX_ARGS)
-		return (false);
-	if (validate_numbers(argv) == false)
-		return (false);
-	return (true);
-}
-// validation initialization
-t_table	*validation_initialization(int argc, char **argv)
-{
-	t_table	*table;
-
-	if (validate_args(argc, argv) == false)
-	{
-		print_error("Invalid arguments");
-		return (NULL);
-	}
-	table = init_table(argv);
-	if (!table)
-	{
-		print_error("Error initializing table");
-		return (NULL);
-	}
-	init_table_mutexes(table);
-	return (table);
 }

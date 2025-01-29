@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:52:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 20:37:13 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:20:51 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,6 @@ void	print_all_info(t_table *table)
 	while (i < table->n_philos)
 	{
 		print_info(&table->philos[i]);
-		i++;
-	}
-}
-
-void	print_results(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	while (i < table->n_philos)
-	{
-		printf("Philosopher %d ate %d times\n", table->philos[i].id,
-			table->philos[i].eat_count);
 		i++;
 	}
 }

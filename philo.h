@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 19:39:30 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:26:44 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <unistd.h>
 
 // defines
-# define MAX_PHILOS INT_MAX
+# define MAX_PHILOS 100
 # define MIN_PHILOS 1
 
 # define MAX_TIME INT_MAX
@@ -88,98 +88,97 @@ typedef struct s_table
 }					t_table;
 
 // functions
-// main.c
-int					main(int argc, char **argv);
 
-// validate.c
-bool				check_eat_count(t_table *table);
+// data_handlers
+void				handle_bool(pthread_mutex_t *mutex, bool *status,
+						bool newstatus);
+bool				check_bool(pthread_mutex_t *mutex, bool *status);
+void				handle_int(pthread_mutex_t *mutex, int *status,
+						int newstatus);
+int					check_int(pthread_mutex_t *mutex, int *status);
+void				handle_long(pthread_mutex_t *mutex, long *status,
+						long newstatus);
+long				check_long(pthread_mutex_t *mutex, long *status);
+bool				simulating(t_table *table);
 
-bool				check_time(t_table *table);
+// error
+int					print_error(char *msg);
+void				print_table_info(t_table *table);
+void				print_forks(t_philo *philo);
+void				print_info(t_philo *philo);
+void				print_all_info(t_table *table);
+void				print_results(t_table *table);
 
-bool				check_philos(t_table *table);
-
-bool				check_values(t_table *table);
-bool				validate_numbers(char **argv);
-
-bool				validate_args(int argc, char **argv);
-
-bool				check_thread_array(t_table *table);
-
-t_table				*validation_initialization(int argc, char **argv);
-
-// init.c
-t_table				*init_table(char **argv);
+// forks
 void				init_forks(t_table *table);
 
-// philo_maker.c
+// free
+void				free_forks(t_table *table);
 void				free_philos(t_table *table);
-t_philo				*create_philo(int id);
-t_philo				*autobots_assemble(t_table *table);
+void				free_thread_array(t_table *table);
+void				free_table(t_table *table);
 
-// sim.c
-void				set_sync(t_table *table);
-void				start_sim(t_table *table);
+// init
+bool				populate(t_table *table, char **argv);
+bool				prepare_philos(t_table *table);
+bool				prepare_numbers(char **argv);
+t_table				*init_table(char **argv);
 
-// routine.c
+// main
+int					main(int argc, char **argv);
 
-// threads.c
-pthread_t			*init_thread_array(t_table *table);
-void				eat(t_philo *philo);
-void				sleeperino(t_philo *philo);
-void				grab_forks(t_philo *philo);
-void				think(t_philo *philo);
-void				*eat_pray_love(void *data);
-void				join_threads(t_table *table);
-void				create_threads(t_table *table);
-bool				check_all_ate(t_philo *philo);
-// mutexes.c
+// mutex
+bool				start_mutexes(t_table *table);
 void				init_table_mutexes(t_table *table);
+bool				destroy_mutexes(t_table *table);
 void				destroy_table_mutexes(t_table *table);
 
-// aux.c
-bool				ft_isnumber(char *str);
+// philo
+void				assign_forks(t_table *table, int id);
+void				init_philo(t_table *table, int id);
+t_philo				*autobots_assemble(t_table *table);
 
-int					ft_atoi(const char *str);
+// sim
+void				set_sync(t_table *table);
+void				sim_one(t_table *table);
+void				start_sim(t_table *table);
 
-void				assign_values(t_table *table, char **argv);
+// threads
+pthread_t			*init_thread_array(t_table *table);
+bool				check_if_dead(t_philo *philo);
+bool				has_lower_eat_count(t_philo *philo);
+bool				check_all_ate(t_philo *philo);
+void				*eat_pray_love(void *data);
+void				join_threads(t_table *table);
+pthread_t			create_thread(t_philo *philo);
+void				create_threads(t_table *table);
+void				sleeperino(t_philo *philo);
+void				grab_forks(t_philo *philo);
+void				release_forks(t_philo *philo);
+void				think(t_philo *philo);
+void				eat(t_philo *philo);
 
-// time.c
+// time
+void				check_timeval(pthread_mutex_t *mutex, struct timeval *time);
 long				get_timestamp(t_table *table);
 void				print_formatted_timestamp(long timestamp);
 void				ft_start_time(t_table *table);
 void				print_message(t_philo *philo, char *msg);
 
-// error.c
-int					print_error(char *msg);
-void				print_info(t_philo *philo);
-void				print_all_info(t_table *table);
-void				print_forks(t_philo *philo);
-void				print_table_info(t_table *table);
-void				print_results(t_table *table);
+// utils
+size_t				ft_strlen(const char *s);
+bool				ft_isnumber(char *str);
+int					ft_atoi(const char *str);
+void				assign_values(t_table *table, char **argv);
 
-// forks.c
-void				free_forks(t_table *table);
-
-// free.c
-void				free_table(t_table *table);
-void				free_thread_array(t_table *table);
-
-// data_handlers.c
-void				handle_bool(pthread_mutex_t *mutex, bool *status,
-						bool newstatus);
-
-bool				check_bool(pthread_mutex_t *mutex, bool *status);
-
-void				handle_int(pthread_mutex_t *mutex, int *status,
-						int newstatus);
-
-int					check_int(pthread_mutex_t *mutex, int *status);
-
-void				handle_long(pthread_mutex_t *mutex, long *status,
-						long newstatus);
-
-long				check_long(pthread_mutex_t *mutex, long *status);
-
-bool				simulating(t_table *table);
+// validate
+bool				check_thread_array(t_table *table);
+bool				check_eat_count(t_table *table);
+bool				check_time(t_table *table);
+bool				check_philos(t_table *table);
+bool				check_values(t_table *table);
+bool				validate_numbers(char **argv);
+bool				validate_args(int argc, char **argv);
+t_table				*validation_initialization(int argc, char **argv);
 
 #endif

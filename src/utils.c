@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:56:37 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 20:38:21 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:56:08 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ bool	ft_isnumber(char *str)
 int	ft_atoi(const char *str)
 {
 	size_t	i;
-	size_t	signal;
 	size_t	result;
 
 	if (!str)
@@ -48,23 +47,12 @@ int	ft_atoi(const char *str)
 		return (0);
 	i = 0;
 	result = 0;
-	signal = 1;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-			|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r'))
-		i++;
-	if (str[i] == '-')
-	{
-		signal *= -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + str[i] - '0';
 		i++;
 	}
-	return (result * signal);
+	return (result);
 }
 
 void	assign_values(t_table *table, char **argv)
