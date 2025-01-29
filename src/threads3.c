@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:30:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 16:31:15 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:14:50 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,12 @@ void	eat(t_philo *philo)
 		usleep(100);
 	grab_forks(philo);
 	if (philo->table->n_philos == 1)
-	{
 		return ;
-	}
 	print_message(philo, "is eating");
 	handle_long(&philo->table->table, &philo->last_eat,
 		get_timestamp(philo->table));
-	handle_int(&philo->table->table, &philo->eat_count, philo->eat_count + 1);
+	handle_int(&philo->table->philo_mutex, &philo->eat_count, philo->eat_count
+		+ 1);
 	usleep(philo->table->time_to_eat * 1000);
 	if (check_if_dead(philo))
 	{

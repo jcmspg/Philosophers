@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 18:26:44 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:13:34 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <unistd.h>
+
+
 
 // defines
 # define MAX_PHILOS 100
@@ -86,6 +88,35 @@ typedef struct s_table
 
 	t_philo			*philos;
 }					t_table;
+
+// bonus structs
+typedef struct s_table_bonus
+{
+    int				n_philos;
+    int				n_forks;
+    int				round;
+    long			time_to_die;
+    long			time_to_eat;
+    long			time_to_sleep;
+    int				must_eat_count;
+    
+    int*            forks;
+
+    bool			simulating;
+    bool			all_ate;
+    bool			ready_set_go;
+
+    struct timeval	start_time;
+
+    pthread_t		*thread_array;
+
+
+    t_philo			*philos;
+    sem_t			*semaphore;
+}                    t_table_bonus;
+
+
+
 
 // functions
 
@@ -180,5 +211,10 @@ bool				check_values(t_table *table);
 bool				validate_numbers(char **argv);
 bool				validate_args(int argc, char **argv);
 t_table				*validation_initialization(int argc, char **argv);
+
+// bonus
+
+
+
 
 #endif

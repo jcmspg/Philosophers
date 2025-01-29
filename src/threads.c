@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 21:25:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 16:31:10 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:14:13 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ bool	check_if_dead(t_philo *philo)
 	if (current_time - philo->last_eat >= philo->table->time_to_die)
 	{
 		print_message(philo, "died");
-		handle_bool(&philo->table->table, &philo->table->simulating, false);
+		handle_bool(&philo->table->philo_mutex, &philo->table->simulating,
+			false);
 		handle_bool(&philo->table->death_mutex, &philo->is_dead, true);
 		return (true);
 	}
@@ -43,12 +44,17 @@ bool	has_lower_eat_count(t_philo *philo)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&philo->table->philo_mutex);
 	while (i < philo->table->n_philos)
 	{
 		if (philo->eat_count > philo->table->philos[i].eat_count)
+		{
+			pthread_mutex_unlock(&philo->table->philo_mutex);
 			return (true);
+		}
 		i++;
 	}
+	pthread_mutex_unlock(&philo->table->philo_mutex);
 	return (false);
 }
 
@@ -57,8 +63,8 @@ bool	check_all_ate(t_philo *philo)
 {
 	int	i;
 
-	pthread_mutex_lock(&philo->table->philo_mutex);
 	i = 0;
+	pthread_mutex_lock(&philo->table->philo_mutex);
 	while (i < philo->table->n_philos)
 	{
 		if (philo->eat_count > philo->table->philos[i].eat_count)
