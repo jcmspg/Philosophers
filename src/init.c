@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 20:37:27 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:16:57 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,20 @@ bool	prepare_numbers(char **argv)
 	return (true);
 }
 
+
+// init chekcer
+static bool    check_init(t_table *table, char **argv)
+{
+    if (!table)
+        return (false);
+    if (!prepare_numbers(argv))
+        return (false);
+    if (!populate(table, argv))
+        return (false);
+    if (!prepare_philos(table))
+        return (false);
+    return (true);
+}
 // initialize the table
 t_table	*init_table(char **argv)
 {
@@ -75,19 +89,9 @@ t_table	*init_table(char **argv)
 
 	table = malloc(sizeof(t_table));
 	if (!table)
-	{
-		print_error("Error allocating memory");
 		return (NULL);
-	}
 	memset(table, 0, sizeof(t_table));
-	if (!prepare_numbers(argv))
-	{
-		free(table);
-		return (NULL);
-	}
-	if (!populate(table, argv))
-		return (NULL);
-	if (!prepare_philos(table))
-		return (NULL);
-	return (table);
+	if (!check_init(table, argv))
+        return (NULL);
+    return (table);
 }

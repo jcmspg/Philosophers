@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:52:21 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 16:56:42 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:32:19 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_table	*validation_initialization(int argc, char **argv)
 	table = init_table(argv);
 	if (!table)
 	{
-		print_error("Error initializing table");
+		print_error("Error: Table initialization failed");
 		return (NULL);
 	}
 	init_table_mutexes(table);
