@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 20:43:34 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:15:03 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 
 // defines
-# define MAX_PHILOS 100
+# define MAX_PHILOS 200
 # define MIN_PHILOS 1
 
 # define MAX_TIME INT_MAX

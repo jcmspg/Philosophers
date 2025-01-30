@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:56:38 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/27 20:38:17 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:23:06 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	print_message(t_philo *philo, char *msg)
 {
 	long	timestamp;
 
-	if (philo->full)
-		return ;
 	pthread_mutex_lock(&philo->table->write);
 	if (!philo->table->simulating)
 	{
@@ -67,6 +65,6 @@ void	print_message(t_philo *philo, char *msg)
 	}
 	timestamp = get_timestamp(philo->table);
 	print_formatted_timestamp(timestamp);
-	printf("%d %s\n", philo->id, msg);
+	printf("%d %s\n", philo->id + 1, msg);
 	pthread_mutex_unlock(&philo->table->write);
 }

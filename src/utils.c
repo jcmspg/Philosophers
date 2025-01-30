@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:56:37 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 20:43:52 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:57:40 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,22 @@ int	ft_atoi(const char *str)
 
 void	assign_values(t_table *table, char **argv)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	table->n_philos = ft_atoi(argv[1]);
 	table->time_to_die = (ft_atoi(argv[2]));
 	table->time_to_eat = (ft_atoi(argv[3]));
 	table->time_to_sleep = (ft_atoi(argv[4]));
 	table->n_forks = table->n_philos;
 	if (argv[5])
-    {
-        i = ft_atoi(argv[5]);
-        if (i < 0)
-            table->must_eat_count = -2;
-        else
-            table->must_eat_count = i;
-    }
-
+	{
+		i = ft_atoi(argv[5]);
+		if (i < 0)
+			table->must_eat_count = -2;
+		else
+			table->must_eat_count = i;
+	}
 	else
 		table->must_eat_count = -1;
 }

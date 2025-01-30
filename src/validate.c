@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:50:17 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 21:20:03 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:57:55 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ bool	check_values(t_table *table)
 	if (!check_time(table))
 		return (false);
 	if (!check_eat_count(table))
-	    return (false);
+		return (false);
 	return (true);
 }
