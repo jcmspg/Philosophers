@@ -14,6 +14,7 @@
 # define PHILO_BONUS_H
 
 # include "philo.h"
+#include <complex.h>
 
 // structs
 typedef struct s_philo_bonus
@@ -22,9 +23,7 @@ typedef struct s_philo_bonus
 	int						eat_count;
 	long					last_eat;
 
-	int						right_fork;
-	int						left_fork;
-
+	bool                    can_eat;
 	bool					is_dead;
 	bool					full;
 
@@ -35,23 +34,21 @@ typedef struct s_philo_bonus
 typedef struct s_table_bonus
 {
 	int						n_philos;
-	int						n_forks;
 	int						round;
 	long					time_to_die;
 	long					time_to_eat;
 	long					time_to_sleep;
 	int						must_eat_count;
-
+	int                     group_size;
 	bool					simulating;
 	bool					all_ate;
-	bool					ready_set_go;
 
 	struct timeval			start_time;
 
-	pthread_t				*thread_array;
-
-	t_philo_b				*philos;
+	int                     *eating_indexes;
 	sem_t					*semaphore;
+
+	t_philo_b				**philos;
 }							t_table_b;
 
 // functions
@@ -72,22 +69,44 @@ bool						populate_b(t_table_b *table, char **argv);
 bool						prepare_philos_b(t_table_b *table);
 t_table_b					*init_table_b(char **argv);
 
+// cycling
+int                        *prepare_eating(t_table_b *table);
+bool                        set_eating_indexes(t_table_b *table);
+void    roatate_eating_group(t_table_b *table, int round);
+
 // philo
-void						assign_forks_b(t_table_b *table, int id);
 void						init_philo_b(t_table_b *table, int id);
 t_philo_b					*autobots_assemble_b(t_table_b *table);
+void forking_philos(t_table_b *table);
 
 // utils
 void						assign_values_b(t_table_b *table, char **argv);
 
-// threads
-pthread_t					*init_thread_array_b(t_table_b *table);
+//simulation
+bool                        start_simulation(t_table_b *table);
+
+
+// philos
+t_table_b                    *create_philo(t_table_b *table, int id);
+void                        create_philos(t_table_b *table);
+
+// philo_life
+void                        philo_life_b(t_philo_b *philo);
 
 // semaphores
-void						init_semaphores(t_table_b *table);
+void						init_semaphore(t_table_b *table);
 void                        start_semaphore(t_table_b *table);
+void                        cleanup_semaphore(t_table_b *table);
+
+
+// time
+long                        get_timestamp_b(t_table_b *table);
+void                       print_formatted_timestamp_b(long timestamp);
+void                        ft_start_time_b(t_table_b *table);
+void                        print_message_b(t_philo_b *philo, char *msg);
+
 
 // free
-void                        free_bonus_table(t_table_b *table);
+void                        free_table_b(t_table_b *table);
 
 #endif

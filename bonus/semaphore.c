@@ -11,13 +11,20 @@
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
+#include <semaphore.h>
 
-void init_semaphores(t_table_b *table)
+void init_semaphore(t_table_b *table)
 {
-    //function to create and ini semaphores
+    table->semaphore = sem_open("semaphore", O_CREAT, 0644, table->group_size);
+    if (table->semaphore == SEM_FAILED)
+        {
+            printf("Error: semaphore failed\n");
+            exit(1);
+        }
 }
 
-void start_semaphore(t_table_b *table)
+void cleanup_semaphore(t_table_b *table)
 {
-    //function to start semaphores
+    sem_close(table->semaphore);
+    sem_unlink("semaphore");
 }

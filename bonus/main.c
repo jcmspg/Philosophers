@@ -12,14 +12,26 @@
 
 #include "../philo_bonus.h"
 
-int main(int argc, char **argv)
-{
-   t_table_b *table; 
+int main(int argc, char **argv) {
+  t_table_b *table;
 
-   table = validation_initialization_b(argc, argv);
-   if (!table)
-      return (printf("Error: Initialization failed\n"));
-   start_semaphore(table);
-   free_bonus_table(table);
-   return (0);
+  table = validation_initialization_b(argc, argv);
+  if (!table)
+    return (printf("Error: Initialization failed\n"));
+
+  if (!start_simulation(table))
+  {
+    cleanup_semaphore(table);
+    free_table_b(table);
+    return (printf("Error: Simulation failed\n"));
+  }
+
+  while (table->simulating)
+  {
+    rotate_eating_group(table, table->round);
+    table->round++;
+  }
+  cleanup_semaphore(table);
+  free_table_b(table);
+  return (0);
 }
