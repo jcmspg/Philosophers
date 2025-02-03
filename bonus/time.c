@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:56:38 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/30 18:23:06 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/03 21:43:31 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_formatted_timestamp_b(long timestamp)
 }
 
 // start the time
-void	ft_start_time_b(t_table *table)
+void	ft_start_time_b(t_table_b *table)
 {
 	struct timeval	start_time;
 

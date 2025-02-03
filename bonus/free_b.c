@@ -14,7 +14,5 @@ void free_table_b(t_table_b *table)
         }
         free(table->philos);
     }
-    if (table->eating_indexes)
-        free(table->eating_indexes);
     free(table);
 }

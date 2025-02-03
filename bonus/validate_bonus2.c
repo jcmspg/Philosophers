@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 20:34:15 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/29 21:20:01 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/03 21:53:18 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,30 @@ bool check_values_b(t_table_b *table)
     if (!check_eat_count_b(table))
         return (false);
     return (true);
+}
+
+bool	validate_numbers(char **argv)
+{
+	int	i;
+
+	i = 1;
+	while (argv[i])
+	{
+		if (ft_isnumber(argv[i]) == false)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+// validate arguments
+bool	validate_args(int argc, char **argv)
+{
+	if (argc < MIN_ARGS)
+		return (false);
+	if (argc > MAX_ARGS)
+		return (false);
+	if (validate_numbers(argv) == false)
+		return (false);
+	return (true);
 }

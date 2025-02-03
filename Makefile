@@ -101,7 +101,7 @@ $(OBJ_DIR)/%.o: $(BNS_DIR)/%.c
 $(BONUS): $(OBJ_FILES)
 	@echo ""
 	@echo "$(YELLOW)Creating $(BONUS)..."
-	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $(BONUS)
+	@$(CC) $(CFLAGS) $(BNS_OBJ_FILES) -o $(BONUS)
 	@sleep 0.2 # Just to let the loading bar finish smoothly
 	@echo -n "\r\033[K" # Erase the loading bar
 	@echo "$(GREEN)$(BONUS) created successfully.$(NOCOLOR)"
