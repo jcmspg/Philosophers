@@ -6,11 +6,10 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 21:07:58 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/03 21:49:18 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:38:36 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
 #include "../philo_bonus.h"
 
 // assign values for bonus

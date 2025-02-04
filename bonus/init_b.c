@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 20:51:12 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/03 22:01:22 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:47:16 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,16 @@ bool	populate_b(t_table_b *table, char **argv)
 	if (!check_values_b(table))
 	{
 		free(table);
-		print_error("Error: Invalid values");
+		print_error_b("Error: Invalid values");
 		return (false);
 	}
 	table->simulating = false;
 	table->all_ate = false;
-	table->sem_forks = sem_open(SEM_FORK_NAME, O_CREAT, 0644, table->n_philos);
-    table->sem_print = sem_open("/sem_print", O_CREAT, 0644, 1);
-    if (table->sem_forks == SEM_FAILED || table->sem_print == SEM_FAILED)
-    {
-        free(table);
-        print_error("Error: Semaphore failed");
-        return (false);
-    }
     table->philos = (t_philo_b **)malloc(sizeof(t_philo_b *) * table->n_philos);
     if (!table->philos)
     {
         free(table);
-        print_error("Error: Table initialization failed");
+        print_error_b("Error: Table initialization failed");
         return (false);
     }
 	return (true);
@@ -46,7 +38,7 @@ bool	prepare_numbers(char **argv)
 {
 	if (!validate_numbers(argv))
 	{
-		print_error("Invalid arguments, must be numbers");
+		print_error_b("Invalid arguments, must be numbers");
 		return (false);
 	}
 	return (true);
