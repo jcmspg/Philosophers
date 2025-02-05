@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:08:27 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 02:45:18 by joao             ###   ########.fr       */
+/*   Updated: 2025/02/05 20:02:45 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_philo_b	*create_philo_b(t_table_b *table, int id)
 	philo->full = false;
 	philo->is_dead = false;
 	philo->philos_pid = 0;
-    
 	return (philo);
 }
 
@@ -68,14 +67,15 @@ void	forking_philos_b(t_table_b *table)
 		table->philos[i]->philos_pid = fork();
 		if (table->philos[i]->philos_pid == 0)
 		{
-			//table->philos[i]->last_eat = get_timestamp_b(table);
-            monitor(table->philos[i]);
+			table->philos[i]->last_eat = get_timestamp_b(table);
+			monitor(table->philos[i]);
 		}
 		else if (table->philos[i]->philos_pid < 0)
 		{
 			print_error_b("Error: Fork failed");
 			exit(1);
 		}
+		usleep(100);
 		i++;
 	}
 }

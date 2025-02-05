@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:56:38 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 02:42:24 by joao             ###   ########.fr       */
+/*   Updated: 2025/02/05 19:26:37 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,10 @@ void	print_formatted_timestamp_b(long timestamp)
 // start the time
 void	ft_start_time_b(t_table_b *table)
 {
-	struct timeval	start_time;
 
-	if (gettimeofday(&start_time, NULL))
+	if (gettimeofday(&table->start_time, NULL) == -1)
 	{
 		print_error_b("Error getting time");
 		return ;
 	}
-	table->start_time = start_time;
 }

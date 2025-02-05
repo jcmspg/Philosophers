@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 20:27:23 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 02:30:24 by joao             ###   ########.fr       */
+/*   Updated: 2025/02/05 21:11:51 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void init_semaphores(t_table_b *table)
     sem_unlink(SEM_FORK_R_NAME);
     sem_unlink(SEM_FORK_L_NAME);
     sem_unlink(SEM_PRINT_NAME);
+    sem_unlink(SEM_EXTRA_NAME);
+    table->extra = sem_open(SEM_EXTRA_NAME, O_CREAT, 0644, 1);
     table->right_fork = sem_open(SEM_FORK_R_NAME, O_CREAT, 0644, table->n_philos / 2);
     table->left_fork = sem_open(SEM_FORK_L_NAME, O_CREAT, 0644, table->n_philos / 2);
     table->sem_print = sem_open(SEM_PRINT_NAME, O_CREAT, 0644, 1);
@@ -25,9 +27,6 @@ void init_semaphores(t_table_b *table)
         print_error_b("Error: Semaphore failed");
         exit(1);
     }
-    printf("Semaphores initialized\n");
-    printf("Right fork: %p\n", table->right_fork);
-    printf("Left fork: %p\n", table->left_fork);
 }
 
 
@@ -46,8 +45,6 @@ t_table_b *validation_initialization_b(int argc, char **argv)
         print_error_b("Error: Table initialization failed");
         return (NULL);
     }
-    printf("Table initialized\n");
-    print_table_info_b(table);
     pthread_mutex_init(&table->print, NULL);
     init_semaphores(table);
     return (table);

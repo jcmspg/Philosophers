@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 21:07:58 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 02:39:49 by joao             ###   ########.fr       */
+/*   Updated: 2025/02/05 19:58:19 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void assign_values_b(t_table_b *table, char **argv)
 
 void print_philo(t_philo_b *philo, char *msg)
 {
-    pthread_mutex_lock(&philo->table->print);
-    if (!philo->table->simulating)
+    sem_wait(philo->table->sem_print);
+    if (philo->table->simulating)
     {
         long time;
 
@@ -45,5 +45,5 @@ void print_philo(t_philo_b *philo, char *msg)
         print_formatted_timestamp_b(time);
         printf("%d %s\n", philo->id, msg);
     }
-    pthread_mutex_unlock(&philo->table->print);
+    sem_post(philo->table->sem_print);
 }
