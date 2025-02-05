@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philos.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:08:27 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/04 21:35:05 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/05 02:45:18 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,15 @@ void	forking_philos_b(t_table_b *table)
 	{
 		table->philos[i]->philos_pid = fork();
 		if (table->philos[i]->philos_pid == 0)
-        {
-            philo_life_sem(table->philos[i]);
-            exit(0);
-        }
-		i++;
-	}
-}
-
-void	wait_philos_b(t_table_b *table)
-{
-	int	i;
-	int	status;
-
-	i = 0;
-	while (i < table->n_philos)
-	{
-		waitpid(table->philos[i]->philos_pid, &status, 0);
+		{
+			//table->philos[i]->last_eat = get_timestamp_b(table);
+            monitor(table->philos[i]);
+		}
+		else if (table->philos[i]->philos_pid < 0)
+		{
+			print_error_b("Error: Fork failed");
+			exit(1);
+		}
 		i++;
 	}
 }

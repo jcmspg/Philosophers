@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/04 21:25:14 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/05 02:39:16 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 
 // defines
 # define MAX_PHILOS 200
@@ -46,7 +47,6 @@
 # define SEM_FORK_R_NAME "right_fork"
 # define SEM_PRINT_NAME "sem_print"
 
-
 // structs
 typedef struct s_philo_bonus
 {
@@ -54,12 +54,12 @@ typedef struct s_philo_bonus
 	int						eat_count;
 	long					last_eat;
 
-
 	pid_t					philos_pid;
 
 	bool					is_dead;
 	bool					full;
 
+	pthread_t				thread;
 	struct s_table_bonus	*table;
 }							t_philo_b;
 
@@ -78,8 +78,10 @@ typedef struct s_table_bonus
 
 	struct timeval			start_time;
 
+	pthread_mutex_t			print;
+
 	sem_t					*right_fork;
-    sem_t                   *left_fork;
+	sem_t					*left_fork;
 	sem_t					*sem_print;
 	t_philo_b				**philos;
 }							t_table_b;
@@ -107,6 +109,7 @@ t_table_b					*init_table_b(char **argv);
 
 // utils
 void						assign_values_b(t_table_b *table, char **argv);
+void						print_philo(t_philo_b *philo, char *msg);
 
 // error
 int							print_error_b(char *msg);
@@ -116,6 +119,8 @@ void						print_all_info_b(t_table_b *table);
 void						print_results_b(t_table_b *table);
 
 // simulation
+void						*eat_pray_love_b(void *arg);
+void						monitor(t_philo_b *philo);
 
 // semaphores
 void						print_sem(t_philo_b *philo, char *msg);
@@ -130,21 +135,23 @@ void						philo_life_sem(t_philo_b *philo);
 t_philo_b					*create_philo_b(t_table_b *table, int id);
 void						create_philos_b(t_table_b *table);
 void						forking_philos_b(t_table_b *table);
-void                        wait_philos_b(t_table_b *table);
+void						wait_philos_b(t_table_b *table);
 
 // verfications
 bool						check_death_sem(t_philo_b *philo);
 bool						check_end(t_philo_b *philo);
 
 // time
-void						check_timeval_b(struct timeval *time, t_table_b *table);
+void						check_timeval_b(struct timeval *time,
+								t_table_b *table);
 long						get_timestamp_b(t_table_b *table);
-void						print_formatted_timestamp_b(long timestamp);
 void						ft_start_time_b(t_table_b *table);
 void						print_message_b(t_philo_b *philo, char *msg);
+void						print_formatted_timestamp_b(long timestamp);
 
 // free
 void						free_table_b(t_table_b *table);
+void wrap_up(t_table_b *table);
 
 // utils
 size_t						ft_strlen(const char *str);

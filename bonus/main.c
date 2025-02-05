@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 20:16:49 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/04 21:19:31 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/05 02:05:39 by joao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,9 @@ int	main(int argc, char **argv)
 	if (!table)
 		return (printf("Error: Initialization failed\n"));
     create_philos_b(table);
-    
-
     ft_start_time_b(table);
     forking_philos_b(table);
-
-    wait_philos_b(table);
+    wrap_up(table);
 	free_table_b(table);
 	return (0);
 }
