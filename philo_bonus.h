@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 02:39:16 by joao             ###   ########.fr       */
+/*   Updated: 2025/02/05 21:10:52 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 # define SEM_FORK_L_NAME "left_fork"
 # define SEM_FORK_R_NAME "right_fork"
 # define SEM_PRINT_NAME "sem_print"
-
+# define SEM_EXTRA_NAME "extra"
 // structs
 typedef struct s_philo_bonus
 {
@@ -80,6 +80,7 @@ typedef struct s_table_bonus
 
 	pthread_mutex_t			print;
 
+    sem_t                   *extra;
 	sem_t					*right_fork;
 	sem_t					*left_fork;
 	sem_t					*sem_print;
