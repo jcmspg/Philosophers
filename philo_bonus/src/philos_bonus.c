@@ -6,13 +6,13 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:08:27 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 20:02:45 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:03:26 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
-static void	print_philo_info(t_philo_b *philo)
+/*static void	print_philo_info(t_philo_b *philo)
 {
 	printf("Philosopher nbr: %d\n", philo->id);
 	printf("Eat count: %d\n", philo->eat_count);
@@ -20,7 +20,7 @@ static void	print_philo_info(t_philo_b *philo)
 	printf("Is dead: %d\n", philo->is_dead);
 	printf("Full: %d\n", philo->full);
 	printf("\n---\n");
-}
+}*/
 
 t_philo_b	*create_philo_b(t_table_b *table, int id)
 {

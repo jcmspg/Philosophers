@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 20:51:12 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/04 19:47:16 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:52:44 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ bool	populate_b(t_table_b *table, char **argv)
 	}
 	table->simulating = false;
 	table->all_ate = false;
-    table->philos = (t_philo_b **)malloc(sizeof(t_philo_b *) * table->n_philos);
-    if (!table->philos)
-    {
-        free(table);
-        print_error_b("Error: Table initialization failed");
-        return (false);
-    }
+	table->philos = (t_philo_b **)malloc(sizeof(t_philo_b *) * table->n_philos);
+	if (!table->philos)
+	{
+		free(table);
+		print_error_b("Error: Table initialization failed");
+		return (false);
+	}
 	return (true);
 }
 
@@ -50,17 +50,9 @@ static bool	check_init_b(t_table_b *table, char **argv)
 	if (!table)
 		return (false);
 	if (!prepare_numbers(argv))
-	{
-		if (table)
-			free(table);
 		return (false);
-	}
 	if (!populate_b(table, argv))
-	{
-		if (table)
-			free(table);
 		return (false);
-	}
 	return (true);
 }
 

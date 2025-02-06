@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/06 16:43:48 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:39:42 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void						print_results_b(t_table_b *table);
 // simulation
 void						*eat_pray_love_b(void *arg);
 void						monitor(t_philo_b *philo);
+void						live_and_let_die(t_philo_b *philo);
 
 // semaphores
 void						print_sem(t_philo_b *philo, char *msg);
@@ -153,6 +154,7 @@ void						print_formatted_timestamp_b(long timestamp);
 // free
 void						free_table_b(t_table_b *table);
 void						wrap_up(t_table_b *table);
+void						clean_house(t_table_b *table);
 
 // utils
 size_t						ft_strlen(const char *str);
