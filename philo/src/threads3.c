@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:30:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/30 17:57:24 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:04:58 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	sleeperino(t_philo *philo)
 {
+	if (philo->table->n_philos == 1)
+		return ;
 	print_message(philo, "is sleeping");
 	usleep(philo->table->time_to_sleep * 1000);
 }
@@ -42,6 +44,8 @@ void	release_forks(t_philo *philo)
 
 void	think(t_philo *philo)
 {
+	if (philo->table->n_philos == 1)
+		return ;
 	print_message(philo, "is thinking");
 }
 
