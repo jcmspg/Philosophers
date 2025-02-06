@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 21:10:52 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:43:48 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <limits.h>
 # include <pthread.h>
 # include <semaphore.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -27,7 +28,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <signal.h>
 
 // defines
 # define MAX_PHILOS 200
@@ -80,7 +80,7 @@ typedef struct s_table_bonus
 
 	pthread_mutex_t			print;
 
-    sem_t                   *extra;
+	sem_t					*extra;
 	sem_t					*right_fork;
 	sem_t					*left_fork;
 	sem_t					*sem_print;
@@ -152,7 +152,7 @@ void						print_formatted_timestamp_b(long timestamp);
 
 // free
 void						free_table_b(t_table_b *table);
-void wrap_up(t_table_b *table);
+void						wrap_up(t_table_b *table);
 
 // utils
 size_t						ft_strlen(const char *str);

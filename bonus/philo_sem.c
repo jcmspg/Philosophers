@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 18:44:27 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/05 21:41:32 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:37:50 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ bool	check_death_sem(t_philo_b *philo)
 	if (time - philo->last_eat > philo->table->time_to_die)
 	{
 		sem_wait(philo->table->sem_print);
-		philo->table->simulating = false;
+		philo->is_dead = true;
+        philo->table->simulating = false;
 		print_formatted_timestamp_b(time);
 		printf("%d died\n", philo->id);
 		sem_post(philo->table->sem_print);
@@ -38,26 +39,31 @@ void	*eat_pray_love_b(void *arg)
 	philo = (t_philo_b *)arg;
     while (philo->table->simulating)
 	{
+        usleep(50);
 		if (check_death_sem(philo))
-		{
-			exit(1);
-		}
+        {
+            sem_wait(philo->table->sem_print);
+            exit(1);
+        }
 		if (philo->table->must_eat_count > 0
 			&& philo->eat_count >= philo->table->must_eat_count)
 		{
 			philo->full = true;
+            philo->table->simulating = false;
 			exit(0);
 		}
 	}
-	return (NULL);
+    return (NULL);
 }
+
+
 
 void	monitor(t_philo_b *philo)
 {
 	if (pthread_create(&philo->thread, NULL, eat_pray_love_b, philo))
 	{
 		print_error_b("Error: Thread creation failed");
-		exit(0);
+		exit(1);
 	}
 	philo->table->simulating = true;
 	if (philo->id % 2 != 0)
@@ -65,7 +71,7 @@ void	monitor(t_philo_b *philo)
 		print_philo(philo, "is thinking");
 		usleep(50);
 	}
-	while (philo->table->simulating)
+	while (1)
 	{
 		sem_wait(philo->table->right_fork);
 		print_philo(philo, "has taken a fork");
@@ -84,7 +90,7 @@ void	monitor(t_philo_b *philo)
 	if (pthread_join(philo->thread, NULL))
 	{
 		print_error_b("Error: Thread join failed");
-		exit(0);
+		exit(1);
 	}
 }
 
@@ -97,13 +103,13 @@ void	wrap_up(t_table_b *table)
 	i = 0;
 	while (i < table->n_philos)
 	{
-		waitpid(table->philos[i]->philos_pid, &status, 0);
+		waitpid(-1, &status, 0);
 		if (status != 0)
 		{
 			j = 0;
 			while (j < table->n_philos)
 			{
-				kill(table->philos[j]->philos_pid, SIGTERM);
+				kill(table->philos[j]->philos_pid, SIGKILL);
 				j++;
 			}
 			break ;

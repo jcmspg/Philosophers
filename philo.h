@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/04 17:31:07 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:43:42 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/time.h>
-# include <sys/wait.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
-
 
 // defines
 # define MAX_PHILOS 200
@@ -184,8 +183,5 @@ bool				validate_args(int argc, char **argv);
 t_table				*validation_initialization(int argc, char **argv);
 
 // bonus
-
-
-
 
 #endif

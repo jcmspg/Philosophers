@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:19:00 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/30 17:58:13 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:17:15 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_table	*init_table(char **argv)
 {
 	t_table	*table;
 
-	table = malloc(sizeof(t_table));
+	table = (t_table *)malloc(sizeof(t_table));
 	if (!table)
 		return (NULL);
 	memset(table, 0, sizeof(t_table));
