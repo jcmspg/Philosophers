@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 21:25:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/01/30 17:57:13 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:44:58 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,21 @@ bool	check_all_ate(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->table->philo_mutex);
 	return (true);
+}
+
+void	standby(t_philo *philo, long time)
+{
+	long	start;
+	long	current;
+
+	start = get_timestamp(philo->table);
+	while (1)
+	{
+		current = get_timestamp(philo->table);
+		if (current - philo->last_eat > philo->table->time_to_die)
+			check_if_dead(philo);
+		if (current - start >= time)
+			break ;
+		usleep(100);
+	}
 }

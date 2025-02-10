@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:30:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/06 20:04:58 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:44:51 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,22 @@
 
 void	sleeperino(t_philo *philo)
 {
+	long	start;
+	long	current;
+
 	if (philo->table->n_philos == 1)
 		return ;
 	print_message(philo, "is sleeping");
-	usleep(philo->table->time_to_sleep * 1000);
+	start = get_timestamp(philo->table);
+	while (1)
+	{
+		current = get_timestamp(philo->table);
+		if (current - philo->last_eat > philo->table->time_to_sleep)
+			check_if_dead(philo);
+		if (current - start >= philo->table->time_to_sleep)
+			break ;
+		usleep(100);
+	}
 }
 
 void	grab_forks(t_philo *philo)
@@ -32,8 +44,18 @@ void	grab_forks(t_philo *philo)
 	}
 	pthread_mutex_lock(&philo->table->forks[philo->right_fork]);
 	print_message(philo, "has taken a fork");
+	if (check_if_dead(philo))
+	{
+		pthread_mutex_unlock(&philo->table->forks[philo->right_fork]);
+		return ;
+	}
 	pthread_mutex_lock(&philo->table->forks[philo->left_fork]);
 	print_message(philo, "has taken a fork");
+	if (check_if_dead(philo))
+	{
+		release_forks(philo);
+		return ;
+	}
 }
 
 void	release_forks(t_philo *philo)
@@ -63,7 +85,7 @@ void	eat(t_philo *philo)
 		get_timestamp(philo->table));
 	handle_int(&philo->table->philo_mutex, &philo->eat_count, philo->eat_count
 		+ 1);
-	usleep(philo->table->time_to_eat * 1000);
+	standby(philo, philo->table->time_to_eat);
 	if (check_if_dead(philo))
 	{
 		release_forks(philo);

@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/06 16:43:42 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:43:29 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,8 @@ long				get_timestamp(t_table *table);
 void				print_formatted_timestamp(long timestamp);
 void				ft_start_time(t_table *table);
 void				print_message(t_philo *philo, char *msg);
+
+void				standby(t_philo *philo, long time);
 
 // utils
 size_t				ft_strlen(const char *s);

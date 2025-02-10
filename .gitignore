@@ -3,3 +3,10 @@
 /trash/
 /philotester/
 run.sh
+.vscode/
+*.o
+*.out
+*.exe
+*.log
+*.txt
+
