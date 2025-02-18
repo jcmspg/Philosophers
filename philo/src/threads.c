@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 21:25:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/10 20:44:58 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:33:51 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ bool	check_if_dead(t_philo *philo)
 	current_time = get_timestamp(philo->table);
 	if (current_time - philo->last_eat >= philo->table->time_to_die)
 	{
-		print_message(philo, "died");
-		handle_bool(&philo->table->philo_mutex, &philo->table->simulating,
-			false);
-		handle_bool(&philo->table->death_mutex, &philo->is_dead, true);
+		print_dead(philo);
+		handle_bool(&philo->table->table, &philo->is_dead, true);
+		handle_bool(&philo->table->table, &philo->table->simulating, false);
 		return (true);
 	}
 	return (false);
@@ -91,6 +90,6 @@ void	standby(t_philo *philo, long time)
 			check_if_dead(philo);
 		if (current - start >= time)
 			break ;
-		usleep(100);
+		usleep(10);
 	}
 }

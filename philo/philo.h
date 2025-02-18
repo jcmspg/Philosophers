@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:36:06 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/10 20:43:29 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:34:38 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct s_table
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				must_eat_count;
+
+	long			time_to_think;
 
 	bool			simulating;
 	bool			all_ate;
@@ -173,6 +175,7 @@ size_t				ft_strlen(const char *s);
 bool				ft_isnumber(char *str);
 int					ft_atoi(const char *str);
 void				assign_values(t_table *table, char **argv);
+void				print_dead(t_philo *philo);
 
 // validate
 bool				check_thread_array(t_table *table);

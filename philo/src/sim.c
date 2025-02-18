@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:09:59 by joao              #+#    #+#             */
-/*   Updated: 2025/01/30 17:57:28 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:31:20 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	start_sim(t_table *table)
 	}
 	else
 	{
+		table->time_to_think = ((table->time_to_eat * 2)
+				- table->time_to_sleep);
 		create_threads(table);
 		handle_bool(&table->table, &table->ready_set_go, true);
 		handle_bool(&table->table, &table->simulating, true);
