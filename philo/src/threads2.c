@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:29:07 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/18 18:44:12 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:14:41 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	*eat_pray_love(void *data)
 
 	philo = (t_philo *)data;
 	set_sync(philo->table);
+	if (philo->id % 2 == 0)
+		usleep(10);
 	while (simulating(philo->table))
 	{
 		if (check_if_dead(philo))

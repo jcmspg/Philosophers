@@ -6,7 +6,7 @@
 /*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:56:37 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/18 21:43:22 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:04:36 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,10 @@ void	print_dead(t_philo *philo)
 
 	pthread_mutex_lock(&philo->table->write);
 	if (check_bool(&philo->table->table, &philo->is_dead) == true
-		|| check_bool(&philo->table->table, &philo->table->simulating) == false)
+		|| !simulating(philo->table))
 		return (pthread_mutex_unlock(&philo->table->write), (void)0);
 	timestamp = get_timestamp(philo->table);
 	print_formatted_timestamp(timestamp);
 	printf("%d died\n", philo->id + 1);
-	handle_bool(&philo->table->table, &philo->table->simulating, false);
 	pthread_mutex_unlock(&philo->table->write);
 }
