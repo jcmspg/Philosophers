@@ -6,7 +6,7 @@
 /*   By: joamiran <joamiran@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:30:50 by joamiran          #+#    #+#             */
-/*   Updated: 2025/02/10 20:44:51 by joamiran         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:52:26 by joamiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,10 @@
 
 void	sleeperino(t_philo *philo)
 {
-	long	start;
-	long	current;
-
 	if (philo->table->n_philos == 1)
 		return ;
 	print_message(philo, "is sleeping");
-	start = get_timestamp(philo->table);
-	while (1)
-	{
-		current = get_timestamp(philo->table);
-		if (current - philo->last_eat > philo->table->time_to_sleep)
-			check_if_dead(philo);
-		if (current - start >= philo->table->time_to_sleep)
-			break ;
-		usleep(100);
-	}
+	standby(philo, philo->table->time_to_sleep);
 }
 
 void	grab_forks(t_philo *philo)
@@ -73,19 +61,15 @@ void	think(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	if (has_lower_eat_count(philo))
-		usleep(100);
-	if (!check_all_ate(philo))
-		usleep(100);
 	grab_forks(philo);
 	if (philo->table->n_philos == 1)
 		return ;
 	print_message(philo, "is eating");
+	standby(philo, philo->table->time_to_eat);
 	handle_long(&philo->table->table, &philo->last_eat,
 		get_timestamp(philo->table));
 	handle_int(&philo->table->philo_mutex, &philo->eat_count, philo->eat_count
 		+ 1);
-	standby(philo, philo->table->time_to_eat);
 	if (check_if_dead(philo))
 	{
 		release_forks(philo);
@@ -98,3 +82,8 @@ void	eat(t_philo *philo)
 	if (check_if_dead(philo))
 		return ;
 }
+// place at the start of eat .. to check if the philo has more than the others
+//	if (has_lower_eat_count(philo))
+//		usleep(100);
+//	if (!check_all_ate(philo))
+//		usleep(100);
